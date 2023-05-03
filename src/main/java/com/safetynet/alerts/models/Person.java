@@ -1,9 +1,8 @@
-package com.safetynet.alerts.model;
+package com.safetynet.alerts.models;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 @Component
@@ -17,6 +16,5 @@ public class Person {
     private String phone;
     private String email;
     private String birthdate;
-    private ArrayList<String> medications;
-    private ArrayList<String> allergies;
+
 }
