@@ -1,4 +1,4 @@
-package com.safetynet.alerts.controllers;
+package com.safetynet.alerts.controller;
 
 public class personController {
 

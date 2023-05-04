@@ -1,4 +1,4 @@
-package com.safetynet.alerts.models;
+package com.safetynet.alerts.model;
 
 import lombok.Data;
 import org.springframework.stereotype.Component;
