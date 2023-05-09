@@ -1,16 +1,16 @@
 package com.safetynet.alerts.model;
 
 import lombok.Data;
-import org.springframework.stereotype.Component;
 
-@Component
 @Data   //crée directement getters et setters
+//chercher doc DATA
 public class Person {
-    private String[] name = new String [2];  //prenom à index 0, nom à index 1
+    private String firstName;
+    private String lastName;
     private String address;
     private String city;
-    private int zip;
+    private String zip;
     private String phone;
     private String email;
-    private String birthdate;
+    private String birthdate;           //classe DateTimeFormatter si besoin
 }
