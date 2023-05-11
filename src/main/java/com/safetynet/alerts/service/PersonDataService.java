@@ -1,14 +1,13 @@
 package com.safetynet.alerts.service;
 
+import com.safetynet.alerts.model.Person;
 import org.springframework.stereotype.Service;
+import com.safetynet.alerts.model.JsonToJavaFile;
+import com.safetynet.alerts.model.Person;
+
 
 @Service
-public class PersonDataService {    //CRUD services for Persons
+public class PersonDataService {
 
-    public String getPersonBirthDate(String[] name) {       //methode pour recuperer date de naissance de personne
-        String firstname = name[0];
-        String lastName = name[1];
-        String birthDate = null;
-        return birthDate;
-    }
+
 }

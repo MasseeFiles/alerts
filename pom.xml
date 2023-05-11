@@ -55,7 +55,8 @@
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
+			<artifactId>lombok-maven-plugin</artifactId>
+			<version>1.18.20.0</version>
 		</dependency>
 
 		<dependency>

@@ -5,7 +5,8 @@ import java.util.List;
 import lombok.Data;
 
 @Data   //crée directement getters et setters
-public class FireStations {
-    private List<String> stationAddress = new ArrayList<String>();
+public class FireStation {  //POJO
+    private String stationAddress;
+    private String stationNumber;
 }
 

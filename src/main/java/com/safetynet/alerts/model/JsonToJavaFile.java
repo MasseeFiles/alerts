@@ -2,9 +2,11 @@ package com.safetynet.alerts.model;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+
 @Data   //crée directement getters et setters
 public class JsonToJavaFile {
-    private Object persons = new Object();
-    private Object fireStations = new Object();
-    private Object MedicalRecords = new Object();
+    private ArrayList<Person> listPersons;
+    private ArrayList<FireStation> listFireStations;
+    private ArrayList<MedicalRecord> listMedicalRecords;
 }

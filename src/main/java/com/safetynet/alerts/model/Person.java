@@ -3,8 +3,7 @@ package com.safetynet.alerts.model;
 import lombok.Data;
 
 @Data   //crée directement getters et setters
-//chercher doc DATA
-public class Person {
+public class Person {   //POJO
     private String firstName;
     private String lastName;
     private String address;

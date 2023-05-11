@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data   //crée directement getters et setters
-public class MedicalRecord {
-    private List<String> medications = new ArrayList<String>();
-    private List<String> allergies = new ArrayList<String>();
+public class MedicalRecord {    //POJO
+    private ArrayList<String> medications;
+    private ArrayList<String> allergies;
 }

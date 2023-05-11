@@ -6,18 +6,18 @@ import com.safetynet.alerts.model.JsonToJavaFile;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions.assertNotNull;
 
-class JsonParserTest {
+class ConverterTest {
 
     @Test
     void parseJsonFile(){
-    //Given
+    //GIVEN
         JsonParser jsonParser = new JsonParser();
         JsonToJavaFile jsonToJavaFile = null;
 
-    //When
+    //WHEN
         JsonParser.parseJsonFile();
 
-    //Then
+    //THEN
         assertNotNull(jsonToJavaFile);
     }
 
