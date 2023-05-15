@@ -2,13 +2,10 @@ package com.safetynet.alerts.repository;
 
 import com.safetynet.alerts.model.Person;
 
-@Repository
+//@Repository
 public class medicalRecordCrud {
 
     public void addMedicalRecord(String firstName, String lastName){  //sauvegarde birthdate, medications et allergies
-    }
-
-    public void updateMedications(String firstName, String lastName){ //sauvegarde birthdate, medications et allergies - à spécialiser???
     }
 
     public void updateMedications(String firstName, String lastName){ //sauvegarde birthdate, medications et allergies - à spécialiser???

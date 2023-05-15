@@ -1,17 +1,11 @@
 package com.safetynet.alerts.repository;
 
-import com.safetynet.alerts.model.JsonToJavaFile;
 import com.safetynet.alerts.model.Person;
 
-@Repository
 public class personCrud {
-    JsonToJavaConverter jsonparser = new JsonToJavaConverter();
-    JsonToJavaFile obj = jsonparser.parseJsonFile();
 
-    public void addPerson(Person){  //method write value pour transformer objet java en string json
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = objectMapper.writeValueAsString(person);
-        //sauvegarder string json dans fichier data.json
+    public void addPerson(Person person){  //method write value pour transformer objet java en string json
+
     }
 
     public void updateAddress(String firstName, String lastName, String address){

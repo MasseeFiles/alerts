@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data   //crée directement getters et setters
 public class MedicalRecord {    //POJO
-    private ArrayList<String> medications;
-    private ArrayList<String> allergies;
+    private List<String> medications;
+    private List<String> allergies;
 }
