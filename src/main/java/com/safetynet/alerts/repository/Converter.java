@@ -21,7 +21,6 @@ public class Converter {
     }
 
     public JavaObjectFromJson convertJsonToJavaObject() { //Lecture dans le json : prend en paramètre un objet json lu dans dataen string, fait la conversion et retourne un objet Java
-
         try {
             ObjectMapper mapper = new ObjectMapper();
             String jsonContent = convertToString();
