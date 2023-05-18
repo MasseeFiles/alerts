@@ -28,7 +28,7 @@ public class Converter {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;    //la methode doit toujours retourner qq chose (valeur de retour ou null)
+        return null;    //la methode doit toujours retourner qq chose (valeur de retour ou null)  --  POURQUOI???
     }
 
     private String convertToString() {
