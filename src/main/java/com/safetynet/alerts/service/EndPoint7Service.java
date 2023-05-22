@@ -27,9 +27,4 @@ public class EndPoint7Service {
         }
         return listEmails;
     }
-
-
-
-
-
 }

@@ -10,11 +10,10 @@ import java.util.Iterator;
 import java.util.List;
 
 public class EndPoint3Service {
-    private JavaObjectFromJson data;
     private Converter converter = new Converter();
+    private JavaObjectFromJson data = converter.convertJsonToJavaObject();
 
     public List<String> getAddressesCovered(int request){
-        data = converter.convertJsonToJavaObject();
         List<FireStation> savedJSonFireStation = data.getFireStations();
         List<String> addressesCovered = new ArrayList<String>();    //liste des adresses couvertes par une firstStation
         Iterator<FireStation> iterator = savedJSonFireStation.iterator();
