@@ -3,18 +3,23 @@ package com.safetynet.alerts.service;
 import com.safetynet.alerts.model.JavaObjectFromJson;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.Converter;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@Service
 public class EndPoint7Service {
-    //    @Autowired
-    private Converter converter = new Converter();  //correction de instanciation du controleur : null !=new converter
-    private JavaObjectFromJson data = converter.convertJsonToJavaObject();
-    @GetMapping("/communityEmails")  //annotation SpringBoot: methode suivante sera utilisée pour requetes GET concernant l'URI communityEmails???
+    private final Converter converter;  //correction de instanciation du controleur : null !=new converter
+    @Autowired //juste pour ligne suivante
+    public EndPoint7Service(Converter converter) {
+        this.converter = converter;
+    }
+
     public List<String> getAllEmails() {
+        JavaObjectFromJson data = converter.convertJsonToJavaObject(); //ne fait pas partie du contexte spring
 
         List<Person> list = data.getPersons();
         List<String> listEmails = new ArrayList<String>();

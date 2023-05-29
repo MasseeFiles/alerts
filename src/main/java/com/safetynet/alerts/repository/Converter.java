@@ -2,13 +2,15 @@ package com.safetynet.alerts.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.alerts.model.JavaObjectFromJson;
+import org.springframework.stereotype.Component;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+@Component
 public class Converter {
-
     public void convertJavaObjectToJson(JavaObjectFromJson javaObjectFromJson){  //Ecriture dans le json: prend en parametre un objet Java et fait la conversion et l'ecriture dans fichier json
         try {
             ObjectMapper mapper = new ObjectMapper();

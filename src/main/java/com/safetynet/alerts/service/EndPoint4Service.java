@@ -1,9 +1,6 @@
 package com.safetynet.alerts.service;
 
-import com.safetynet.alerts.model.FireStation;
-import com.safetynet.alerts.model.JavaObjectFromJson;
-import com.safetynet.alerts.model.Person;
-import com.safetynet.alerts.model.PersonEndPoint3;
+import com.safetynet.alerts.model.*;
 import com.safetynet.alerts.repository.Converter;
 
 import java.util.ArrayList;
@@ -11,43 +8,64 @@ import java.util.Iterator;
 import java.util.List;
 
 public class EndPoint4Service {
-    private Converter converter = new Converter();
+    private final Converter converter = new Converter();
     private JavaObjectFromJson data = converter.convertJsonToJavaObject();
 
-    public int getStationNumber(String address) {
+    public List<Integer> getStationNumber(String requestAddress) {
         List<FireStation> savedJSonFireStation = data.getFireStations();
         Iterator<FireStation> iterator = savedJSonFireStation.iterator();
-        int stationNumber = 0;
+        List<Integer> stationNumber = new ArrayList<Integer>();
 
         while (iterator.hasNext()) {
             FireStation fireStation = iterator.next();
             String singleAddressCovered = fireStation.getAddress();
 
-            if (address.equals(singleAddressCovered)) {
-                stationNumber = fireStation.getStation();
+            if (requestAddress.equals(singleAddressCovered)) {
+                int number = fireStation.getStation();
+                stationNumber.add(number);
             }
         }
         return stationNumber;
     }
 
-    public List<PersonEndPoint3> getListPersons(String requestAddress){
+    public List<PersonEndPoint4> getListPerson(String requestAddress){
         List<Person> savedJSonPersons = data.getPersons();
-        List<PersonEndPoint3> listMatchingPerson = new ArrayList<PersonEndPoint3>();
-        Iterator<Person> iterator = savedJSonPersons.iterator();
+        List<PersonEndPoint4> listMatchingPerson = new ArrayList<PersonEndPoint4>();
+        Iterator<Person> iteratorPerson = savedJSonPersons.iterator();
 
-        while (iterator.hasNext()) {
-            Person person = iterator.next();
+        while (iteratorPerson.hasNext()) {
+            Person person = iteratorPerson.next();
             String addressPerson = person.getAddress();
-
             if (addressPerson.equals(requestAddress)) {
-                PersonEndPoint3 personEndPoint3 = new PersonEndPoint3();
-                personEndPoint3.setFirstName(person.getFirstName());
-                personEndPoint3.setLastName(person.getFirstName());
-                personEndPoint3.setPhone(person.getFirstName());
-// etc... Objet -> objet : voir entity one to one
+                PersonEndPoint4 personEndPoint4 = new PersonEndPoint4();
+                personEndPoint4.setFirstName(person.getFirstName());
+                personEndPoint4.setLastName(person.getLastName());
+                personEndPoint4.setPhone(person.getPhone());
+                listMatchingPerson.add(personEndPoint4);
+            }
 
+        Iterator<PersonEndPoint4> iteratorPersonEndPoint4 = listMatchingPerson.iterator();
+        List<MedicalRecord> savedJsonMedicalRecord = data.getMedicalRecords();
+        Iterator<MedicalRecord> iteratorMedicalRecord = savedJsonMedicalRecord.iterator();
+
+            while (iteratorPersonEndPoint4.hasNext()) {
+                PersonEndPoint4 personEndPoint4 = iteratorPersonEndPoint4.next();
+                String firstName = personEndPoint4.getFirstName();
+                String lastName = personEndPoint4.getLastName();
+
+                while (iteratorMedicalRecord.hasNext()) {
+                    MedicalRecord medicalRecord = iteratorMedicalRecord.next();
+                    String firstNameJson = medicalRecord.getFirstName();
+                    String lastNameJson = medicalRecord.getLastName();
+
+                    if (firstName.equals(firstNameJson) && lastName.equals(lastNameJson)) {
+                        personEndPoint4.setBirthdate(medicalRecord.getBirthdate());
+                        personEndPoint4.setMedications(medicalRecord.getMedications());
+                        personEndPoint4.setAllergies(medicalRecord.getAllergies());
+                    }
+                }
             }
         }
-    return listMatchingPerson;
+    return listMatchingPerson;  //bonne place???
     }
 }

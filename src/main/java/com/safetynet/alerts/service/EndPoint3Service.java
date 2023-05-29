@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class EndPoint3Service {
-    private Converter converter = new Converter();
+    private final Converter converter = new Converter();
     private JavaObjectFromJson data = converter.convertJsonToJavaObject();
 
     public List<String> getAddressesCovered(int request){
