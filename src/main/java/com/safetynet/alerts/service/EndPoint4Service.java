@@ -3,6 +3,9 @@ package com.safetynet.alerts.service;
 import com.safetynet.alerts.model.*;
 import com.safetynet.alerts.repository.Converter;
 
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -59,7 +62,12 @@ public class EndPoint4Service {
                     String lastNameJson = medicalRecord.getLastName();
 
                     if (firstName.equals(firstNameJson) && lastName.equals(lastNameJson)) {
-                        personEndPoint4.setBirthdate(medicalRecord.getBirthdate());
+                        String birthdate = medicalRecord.getBirthdate();
+                        LocalDate date = LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                        LocalDate currentDate = LocalDate.now();
+                        int age = Period.between(date, currentDate).getYears();
+
+                        personEndPoint4.setAge(age);
                         personEndPoint4.setMedications(medicalRecord.getMedications());
                         personEndPoint4.setAllergies(medicalRecord.getAllergies());
                     }

@@ -1,13 +1,14 @@
 package com.safetynet.alerts;
 
 import com.safetynet.alerts.service.EndPoint3Service;
-import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 public class EndPoint3ServiceTest {
 //    @Mock
 //    private Iterator<String> iteratorTested;
@@ -17,9 +18,9 @@ public class EndPoint3ServiceTest {
         EndPoint3Service service = new EndPoint3Service();
         int station = 1;    //difference null et valeur pas defaut
         //WHEN
-        List<String> listAddressesCoveredTested = service.getAddressesCovered(station);
+        List<String> listAddressCoveredTested = service.getAddressesCovered(station);
         //THEN
-        assertNotNull(listAddressesCoveredTested);
+        assertNotNull(listAddressCoveredTested);
     }
     @Test
     void testGetPhonesFromAddress() {   //retourne une list<String>
