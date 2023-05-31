@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController //Bean SpringBoot
+@RestController //Bean SpringBoot : retour de la methode au format json dans reponse http
 public class EndPoint4Controller {
     @Autowired
     private EndPoint4Service endPoint4Service;
