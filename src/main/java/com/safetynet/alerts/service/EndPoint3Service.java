@@ -4,11 +4,13 @@ import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.model.JavaObjectFromJson;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.Converter;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@Service
 public class EndPoint3Service {
     private final Converter converter = new Converter();
     private JavaObjectFromJson data = converter.convertJsonToJavaObject();

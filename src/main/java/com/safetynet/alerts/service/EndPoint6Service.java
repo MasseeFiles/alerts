@@ -2,6 +2,7 @@ package com.safetynet.alerts.service;
 
 import com.safetynet.alerts.model.*;
 import com.safetynet.alerts.repository.Converter;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@Service
 public class EndPoint6Service {
     private final Converter converter = new Converter();
     private JavaObjectFromJson data = converter.convertJsonToJavaObject();

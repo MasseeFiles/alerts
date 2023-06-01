@@ -10,8 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class EndPoint3ServiceTest {
-//    @Mock
-//    private Iterator<String> iteratorTested;
     @Test
     void testGetAddressesCovered() {    //retourne une list<String>
         //GIVEN
