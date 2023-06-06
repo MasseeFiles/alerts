@@ -3,6 +3,7 @@ package com.safetynet.alerts;
 import com.safetynet.alerts.service.EndPoint3Service;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,26 +11,43 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class EndPoint3ServiceTest {
+    @Autowired
+    private EndPoint3Service endPoint3Service;
     @Test
-    void testGetAddressesCovered() {    //retourne une list<String>
+    void testGetAddressesCovered_Ok() {    //retourne une list<String>
         //GIVEN
-        EndPoint3Service service = new EndPoint3Service();
-        int station = 1;    //difference null et valeur pas defaut
+        int station = 1; //Au moins une station 1 dans le fichier JSON
         //WHEN
-        List<String> listAddressCoveredTested = service.getAddressesCovered(station);
+        List<String> listAddressCoveredTested = endPoint3Service.getAddressesCovered(station);
         //THEN
-        assertNotNull(listAddressCoveredTested);
+        assertFalse(listAddressCoveredTested.isEmpty());
     }
     @Test
-    void testGetPhonesFromAddress() {   //retourne une list<String>
+    void testGetAddressesCovered_Wrong_Station_Number() {    //retourne une list<String>
         //GIVEN
-        EndPoint3Service service = new EndPoint3Service();
-        List<String> listAddresses = new ArrayList<String>();
-        listAddresses.add("Address1");    //a ajouter pour pertinence du test ??? (entrer dans le 2e while) - ou commence l'iterator
+        int station = -1;   //Test avec un numero negatif de station
         //WHEN
-        List<String> listPhonesTested = service.getPhonesFromAddress(listAddresses);
+        List<String> listAddressCoveredTested = endPoint3Service.getAddressesCovered(station);
         //THEN
-//        verify(any(Iterator.class), atLeastOnce()).hasNext(); // must be called at least once - pertinent???
-        assertNotNull(listPhonesTested);
+        assertTrue(listAddressCoveredTested.isEmpty());
+    }
+    @Test
+    void testGetPhonesFromAddress_Ok() {   //retourne une list<String>
+        //GIVEN
+        List<String> listAddress = new ArrayList<String>();
+        listAddress.add("834 Binoc Ave");  // Addresse presente dans le fichier JSON
+        //WHEN
+        List<String> listPhonesTested = endPoint3Service.getPhonesFromAddress(listAddress);
+        assertFalse(listPhonesTested.isEmpty());
+    }
+    @Test
+    void testGetPhonesFromAddress_Wrong_Address() {   //retourne une list<String>
+        //GIVEN
+        List<String> listAddress = new ArrayList<String>();
+        listAddress.add("WrongAddress");    // Addresse non-presente dans le fichier JSON
+        //WHEN
+        List<String> listPhonesTested = endPoint3Service.getPhonesFromAddress(listAddress);
+        //THEN
+        assertTrue(listPhonesTested.isEmpty());
     }
 }

@@ -1,6 +1,6 @@
 package com.safetynet.alerts.controller;
 
-import com.safetynet.alerts.model.PersonEndPoint6;
+import com.safetynet.alerts.model.AnswerEndPoint6;
 import com.safetynet.alerts.service.EndPoint6Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +14,7 @@ public class EndPoint6Controller {
         @Autowired
         private EndPoint6Service endPoint6Service;
         @GetMapping("/personInfo")
-        public List<PersonEndPoint6> getAnswerEndPoint6(@RequestParam("firstName") String firstName , @RequestParam("lastName") String lastName) {
+        public List<AnswerEndPoint6> getAnswerEndPoint6(@RequestParam("firstName") String firstName , @RequestParam("lastName") String lastName) {
             return endPoint6Service.getPersonFromName(firstName , lastName);
         }
 }

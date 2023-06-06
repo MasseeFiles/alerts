@@ -12,8 +12,8 @@ import java.util.List;
 public class EndPoint3Controller {
     @Autowired
     private EndPoint3Service endPoint3Service;
-    @GetMapping("/phoneAlert")     //annotation SpringBoot: methode suivante sera utilisée pour requetes GET concernant l'URI firestation???
-    public List<String> getPhoneFromStation(@RequestParam("firestation_number") int stationNumber) {
+    @GetMapping("/phoneAlert")
+    public List<String> getAnswerEndPoint3(@RequestParam("firestation") int stationNumber) {
         List<String> addressesCovered = endPoint3Service.getAddressesCovered(stationNumber);
         return endPoint3Service.getPhonesFromAddress(addressesCovered);
     }

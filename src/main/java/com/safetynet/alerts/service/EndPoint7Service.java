@@ -12,23 +12,25 @@ import java.util.List;
 
 @Service
 public class EndPoint7Service {
-    private final Converter converter;  //correction de instanciation du controleur : null !=new converter
-    @Autowired //juste pour ligne suivante
-    public EndPoint7Service(Converter converter) {
+    private final Converter converter;
+    @Autowired
+    public EndPoint7Service(Converter converter) { //constructeur de la classe avec parametre
         this.converter = converter;
     }
 
-    public List<String> getAllEmails() {
+    public List<String> getAllEmails(String requestCity) {
         JavaObjectFromJson data = converter.convertJsonToJavaObject(); //ne fait pas partie du contexte spring
-
         List<Person> list = data.getPersons();
         List<String> listEmails = new ArrayList<String>();
         Iterator<Person> iterator = list.iterator();
 
         while (iterator.hasNext()) {
             Person person1 = iterator.next();
-            String emailRetrieved = person1.getEmail();
-            listEmails.add(emailRetrieved);
+            String personCity= person1.getCity();
+            if (personCity.equals (requestCity)) {
+                String emailRetrieved = person1.getEmail();
+                listEmails.add(emailRetrieved);
+            }
         }
         return listEmails;
     }

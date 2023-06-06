@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class PersonEndPoint6 {
+public class AnswerEndPoint6 {
         private String firstName;
         private String lastName;
         private String address;

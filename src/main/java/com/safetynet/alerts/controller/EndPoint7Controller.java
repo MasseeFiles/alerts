@@ -13,7 +13,7 @@ public class EndPoint7Controller {
     @Autowired
     private EndPoint7Service endPoint7Service;
     @GetMapping("/communityEmail")
-    public List<String> getAllEmails(@RequestParam("city") String city) {
-        return endPoint7Service.getAllEmails();
+    public List<String> getAnswerEndPoint7(@RequestParam("city") String city) {
+        return endPoint7Service.getAllEmails(city);
     }
 }

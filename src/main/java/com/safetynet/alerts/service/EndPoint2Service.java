@@ -17,10 +17,13 @@ import java.util.List;
 
 @Service
 public class EndPoint2Service {
-    private final Converter converter = new Converter();
-    private JavaObjectFromJson data = converter.convertJsonToJavaObject();
-
+    private final Converter converter;
+    @Autowired
+    public EndPoint2Service(Converter converter) {
+        this.converter = converter;
+    }
     public List<Person> getPersonFromAddress(String requestAddress) {
+        JavaObjectFromJson data = converter.convertJsonToJavaObject();
         List<Person> savedJSonPersons = data.getPersons();
         Iterator<Person> iteratorPerson = savedJSonPersons.iterator();
         List<Person> listPersonLivingHere = new ArrayList<Person>();
@@ -40,6 +43,7 @@ public class EndPoint2Service {
 
     public List<PersonEndPoint2> getChildrenFromPerson(List<Person> listPersonLivingHere) {
         List<PersonEndPoint2> listChildrenLivingHere = new ArrayList<PersonEndPoint2>();
+        JavaObjectFromJson data = converter.convertJsonToJavaObject();
         List<MedicalRecord> savedJsonMedicalRecord = data.getMedicalRecords();
         Iterator<MedicalRecord> iteratorMedicalRecord = savedJsonMedicalRecord.iterator();
         Iterator<Person> iteratorPerson = listPersonLivingHere.iterator();
@@ -70,6 +74,7 @@ public class EndPoint2Service {
     }
 
     public List<PersonEndPoint2> getHouseHoldMembersFromChildren(List<PersonEndPoint2> listChildrenLivingHere) {
+        JavaObjectFromJson data = converter.convertJsonToJavaObject();
         List<Person> savedJSonPersons = data.getPersons();
         Iterator<Person> iteratorPerson = savedJSonPersons.iterator();
         Iterator<PersonEndPoint2> iteratorPersonEndPoint2 = listChildrenLivingHere.iterator();

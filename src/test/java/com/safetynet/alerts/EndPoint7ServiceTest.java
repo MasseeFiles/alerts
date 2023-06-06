@@ -8,16 +8,28 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @SpringBootTest
 class EndPoint7ServiceTest {
     @Autowired
-    private EndPoint7Service service;
+    private EndPoint7Service endPoint7Service;
     @Test
     void testGetAllEmails_OK() { //methode renvoie un JavaObject à tester
         //GIVEN
+        String cityTest = ("Culver");
         //WHEN
-        List<String> listEmail = service.getAllEmails();
+        List<String> listEmail = endPoint7Service.getAllEmails(cityTest);
         //THEN
         assertFalse(listEmail.isEmpty());
+    }
+    @Test
+    void testGetAllEmails_Wrong_City() { //methode renvoie un JavaObject à tester
+        //GIVEN
+        String cityTest = ("Paris");
+        //WHEN
+        List<String> listEmail = endPoint7Service.getAllEmails(cityTest);
+        //THEN
+        assertTrue(listEmail.isEmpty());
     }
 }
