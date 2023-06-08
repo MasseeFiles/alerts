@@ -9,5 +9,5 @@ public class PersonEndPoint2 {
         private String firstName;
         private String lastName;
         private int age;
-        private List<Person> houseHoldMembers ;
+        private List<Person> listHouseholdMember ;
 }

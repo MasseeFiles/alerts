@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-//    @RestController //Bean SpringBoot
-//    public class EndPoint2Controller {
-//        @Autowired
-//        private EndPoint2Service endPoint2Service;
-//        @GetMapping("/childAlert")
-//        public List<PersonEndPoint2> getAnswerEndPoint2(@RequestParam("address") String requestAddress {
-//            List<Person> listPerson = endPoint2Service.getPersonFromAddress(requestAddress);
-//            List<PersonEndPoint2> listPErsonEndPoint2 =  endPoint2ServicegetChildrenFromPerson(listPerson);
-//            return endPoint2Service.getHouseHoldMembersFromChildren(addressesCovered);
-//        }
+@RestController //Bean SpringBoot
+public class EndPoint2Controller {
+    @Autowired
+    private EndPoint2Service endPoint2Service;
+    @GetMapping("/childAlert")
+    public List<PersonEndPoint2> getAnswerEndPoint2(@RequestParam("address") String requestAddress) {
+        List<Person> listPersonLivingHere = endPoint2Service.getPersonFromAddress(requestAddress);
+        List<PersonEndPoint2> listChild = endPoint2Service.getChildren(listPersonLivingHere);
+        return endPoint2Service.getListHouseHoldMembers(listChild, listPersonLivingHere );
+    }
+}
 

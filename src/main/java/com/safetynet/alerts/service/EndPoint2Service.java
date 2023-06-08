@@ -1,16 +1,11 @@
 package com.safetynet.alerts.service;
 
-import com.safetynet.alerts.model.JavaObjectFromJson;
-import com.safetynet.alerts.model.MedicalRecord;
-import com.safetynet.alerts.model.Person;
-import com.safetynet.alerts.model.PersonEndPoint2;
+import com.safetynet.alerts.model.*;
 import com.safetynet.alerts.repository.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.safetynet.alerts.model.PersonEndPoint2;
 
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -22,7 +17,7 @@ public class EndPoint2Service {
     public EndPoint2Service(Converter converter) {
         this.converter = converter;
     }
-    public List<Person> getPersonFromAddress(String requestAddress) {
+    public List<Person> getPersonFromAddress(String requestAddress) {   //definit les personnes habitant à une adresse donnée
         JavaObjectFromJson data = converter.convertJsonToJavaObject();
         List<Person> savedJSonPersons = data.getPersons();
         Iterator<Person> iteratorPerson = savedJSonPersons.iterator();
@@ -40,62 +35,61 @@ public class EndPoint2Service {
         }
         return listPersonLivingHere;
     }
-
-    public List<PersonEndPoint2> getChildrenFromPerson(List<Person> listPersonLivingHere) {
-        List<PersonEndPoint2> listChildrenLivingHere = new ArrayList<PersonEndPoint2>();
+    public List<PersonEndPoint2> getChildren(List<Person> listPersonLivingHere) {   //definit les enfants habitant à l'adresse donnée
         JavaObjectFromJson data = converter.convertJsonToJavaObject();
-        List<MedicalRecord> savedJsonMedicalRecord = data.getMedicalRecords();
-        Iterator<MedicalRecord> iteratorMedicalRecord = savedJsonMedicalRecord.iterator();
-        Iterator<Person> iteratorPerson = listPersonLivingHere.iterator();
-        // ajouter while
-        Person person = iteratorPerson.next();
-        String firstName = person.getFirstName();
-        String lastName = person.getLastName();
+        List<PersonEndPoint2> listChild = new ArrayList<PersonEndPoint2>();
+        Iterator<Person> iteratorPerson1 = listPersonLivingHere.iterator();
 
-        MedicalRecord medicalRecord = iteratorMedicalRecord.next();
-        String firstNameJson = medicalRecord.getFirstName();
-        String lastNameJson = medicalRecord.getLastName();
+        while (iteratorPerson1.hasNext()) {
+            Person person = iteratorPerson1.next();
+            String firstName = person.getFirstName();
+            String lastName = person.getLastName();
 
-        if (firstName.equals(firstNameJson) && lastName.equals(lastNameJson)) {
-            String birthdate = medicalRecord.getBirthdate();
-            LocalDate date = LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-            LocalDate currentDate = LocalDate.now();
-            int age = Period.between(date, currentDate).getYears();
+            List<MedicalRecord> savedJsonMedicalRecord = data.getMedicalRecords();
+            Iterator<MedicalRecord> iteratorMedicalRecord = savedJsonMedicalRecord.iterator();
+            while (iteratorMedicalRecord.hasNext()) {
+                MedicalRecord medicalRecord = iteratorMedicalRecord.next();
+                String firstNameJson = medicalRecord.getFirstName();
+                String lastNameJson = medicalRecord.getLastName();
 
-            if (age < 18) {
-                PersonEndPoint2 personEndPoint2 = new PersonEndPoint2();
-                personEndPoint2.setFirstName(person.getFirstName());
-                personEndPoint2.setLastName(person.getLastName());
-                personEndPoint2.setAge(age);
-                listChildrenLivingHere.add(personEndPoint2);
+                if (firstName.equals(firstNameJson) && lastName.equals(lastNameJson)) {
+                    String birthdate = medicalRecord.getBirthdate();
+                    int age = medicalRecord.getAgeFromBirthDate(birthdate);
+
+                    if (age < 18) {
+                        PersonEndPoint2 child = new PersonEndPoint2();
+                        child.setFirstName(person.getFirstName());
+                        child.setLastName(person.getLastName());
+                        child.setAge(age);
+                        listChild.add(child);
+                    }
+                }
             }
         }
-        return listChildrenLivingHere;
+        return listChild;
     }
 
-    public List<PersonEndPoint2> getHouseHoldMembersFromChildren(List<PersonEndPoint2> listChildrenLivingHere) {
+    public List<PersonEndPoint2> getListHouseHoldMembers(List<PersonEndPoint2> listChild, List<Person> listPersonLivingHere) { //crée la liste des autres membres du foyer et l'affecte à l'enfant correspondant
         JavaObjectFromJson data = converter.convertJsonToJavaObject();
-        List<Person> savedJSonPersons = data.getPersons();
-        Iterator<Person> iteratorPerson = savedJSonPersons.iterator();
-        Iterator<PersonEndPoint2> iteratorPersonEndPoint2 = listChildrenLivingHere.iterator();
-        List<PersonEndPoint2> listAnswerEndPoint2 = listChildrenLivingHere; //changement de nom pour expliquer le code
-        List<Person> list = new ArrayList<Person>();
-
-        while (iteratorPersonEndPoint2.hasNext()){
-            PersonEndPoint2 child = iteratorPersonEndPoint2.next();
+        Iterator<PersonEndPoint2> iteratorListChild = listChild.iterator();
+        List<Person> listHouseholdMember = new ArrayList<Person>();
+        while (iteratorListChild.hasNext()) {
+            PersonEndPoint2 child = iteratorListChild.next();
             String firstNameChild = child.getFirstName();
             String lastNameChild = child.getLastName();
 
-            while (iteratorPerson.hasNext()) {
-                Person person = iteratorPerson.next();
-                String firstName = person.getFirstName();
-                String lastName = person.getLastName();
-                if (firstNameChild.equals(firstName) && lastNameChild.equals(lastName)) {
-                    list.add(person);
+            Iterator<Person> iteratorListPersonLivingHere = listPersonLivingHere.iterator();
+            while (iteratorListPersonLivingHere.hasNext()) {
+                Person householdMember = iteratorListPersonLivingHere.next();
+                String firstName3 = householdMember.getFirstName();
+                String lastName3 = householdMember.getLastName();
+
+                if (firstNameChild.equals(firstName3) && lastNameChild.equals(lastName3)) {    //iteration dans listPersonLivingHere pour creer household
+                    listPersonLivingHere.remove(householdMember);
                 }
+                child.setListHouseholdMember(listPersonLivingHere); //BONNE PLACE ??????
             }
-            child.setHouseHoldMembers(list);
         }
-        return listAnswerEndPoint2;
+        return listChild;
     }
 }
