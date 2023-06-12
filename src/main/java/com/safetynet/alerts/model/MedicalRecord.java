@@ -14,7 +14,10 @@ public class MedicalRecord {
     private List<String> medications;
     private List<String> allergies;
     public int getAgeFromBirthDate(String birthDate)    {
-        LocalDate date = LocalDate.parse(birthDate, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalDate date = LocalDate.parse(birthDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+
+        //PREVOIR CAS OU DATE DE NAISSANCE NE PERMET PAS DE FAIRE LE CALCUL
+
         LocalDate currentDate = LocalDate.now();
         return Period.between(date, currentDate).getYears();
     }

@@ -16,7 +16,7 @@ public class EndPoint4ServiceTest {
     void testGetStationNumber() {
         //GIVEN
         //WHEN
-        List<Integer> stationNumber = endPoint4Service.getStationNumber("addressTest");
+        List<Integer> stationNumber = endPoint4Service.getStationNumber("1509 Culver St");
         //THEN
         assertNotNull(stationNumber);
     }

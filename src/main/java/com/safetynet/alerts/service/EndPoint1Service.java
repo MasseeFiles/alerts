@@ -41,7 +41,6 @@ public class EndPoint1Service {
         return listPersonCovered;
     }
 
-
     public NumberAdultsAndChildren getAdultAndChildren(List<Person> listPersonCovered) {
         JavaObjectFromJson data = converter.convertJsonToJavaObject();
         NumberAdultsAndChildren number = new NumberAdultsAndChildren();
@@ -77,9 +76,4 @@ public class EndPoint1Service {
         }
         return number;
     }
-
-
-
-
-
 }

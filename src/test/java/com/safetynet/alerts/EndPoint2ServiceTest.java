@@ -33,23 +33,4 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
             //THEN
             assertTrue(listPersonTested.isEmpty());
         }
-//        @Test
-//        void testgetListHouseHoldMembers_Ok() {   //retourne une list<String>
-//            //GIVEN
-//            List<String> listAddress = new ArrayList<String>();
-//            listAddress.add("834 Binoc Ave");  // Addresse presente dans le fichier JSON
-//            //WHEN
-//            List<String> listPhonesTested = endPoint2Service.getPhonesFromAddress(listAddress);
-//            assertFalse(listPhonesTested.isEmpty());
-//        }
-//        @Test
-//        void testGetPhonesFromAddress_Wrong_Address() {   //retourne une list<String>
-//            //GIVEN
-//            List<String> listAddress = new ArrayList<String>();
-//            listAddress.add("WrongAddress");    // Addresse non-presente dans le fichier JSON
-//            //WHEN
-//            List<String> listPhonesTested = endPoint2Service.getPhonesFromAddress(listAddress);
-//            //THEN
-//            assertTrue(listPhonesTested.isEmpty());
-//        }
 }

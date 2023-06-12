@@ -7,6 +7,6 @@ import java.util.List;
 
 @Data
 public class AnswerEndPoint4 {
-    List<Integer> stationNumber = new ArrayList<Integer>();
-    List<PersonEndPoint4> listPerson = new ArrayList<PersonEndPoint4>();
+    List<Integer> stationNumber;
+    List<PersonEndPoint4> listPerson;
 }
