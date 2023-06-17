@@ -7,11 +7,12 @@ import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.repository.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+@Service
 public class EndPoint5Service {
     private final Converter converter;
 
@@ -23,30 +24,32 @@ public class EndPoint5Service {
     //
     public List<HouseHold> getListHouseHold(List<String> addressesCovered) {
         List<HouseHold> listHouseHold = new ArrayList<HouseHold>();
-        return listHouseHold;
+        JavaObjectFromJson data = converter.convertJsonToJavaObject();
+        List<Person> listPersonJson = data.getPersons();
+
+//map get put
+        //list contains
+
+
+        List<Person> listPersonCovered = new ArrayList<Person>();   //valeur de retour
+//        Iterator<String> iteratorAddressJson = listAddress.iterator();
+//
+//        while (iteratorAddressJson.hasNext()) {
+//            String address = iteratorAddressJson.next();
+//            Iterator<Person> iteratorPerson = listPersonJson.iterator();
+//
+//            while (iteratorPerson.hasNext()) {
+//                Person person = iteratorPerson.next();
+//                String addressPerson = person.getAddress();
+//
+//                if (address.equals(addressPerson)) {
+//                    listPersonCovered.add(person);
+//                }
+//
+//                return listHouseHold;
+//
+//            }
+//        }
+        return null;
     }
 }
-//        JavaObjectFromJson data = converter.convertJsonToJavaObject();
-//        List<Person> listPersonJson = data.getPersons();
-////
-////
-////
-////
-////
-////
-////
-////        List<Person> listPersonCovered = new ArrayList<Person>();   //valeur de retour
-////        Iterator<String> iteratorAddressJson = listAddress.iterator();
-////
-////        while (iteratorAddressJson.hasNext()) {
-////            String address = iteratorAddressJson.next();
-////            Iterator<Person> iteratorPerson = listPersonJson.iterator();
-////
-////            while (iteratorPerson.hasNext()) {
-////                Person person = iteratorPerson.next();
-////                String addressPerson = person.getAddress();
-////
-////                if (address.equals(addressPerson)) {
-////                    listPersonCovered.add(person);
-////                }
-////            }

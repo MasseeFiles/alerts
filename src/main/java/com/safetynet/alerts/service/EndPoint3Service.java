@@ -1,8 +1,6 @@
 package com.safetynet.alerts.service;
 
-import com.safetynet.alerts.model.FireStation;
-import com.safetynet.alerts.model.JavaObjectFromJson;
-import com.safetynet.alerts.model.Person;
+import com.safetynet.alerts.model.*;
 import com.safetynet.alerts.repository.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +16,11 @@ public class EndPoint3Service {
     public EndPoint3Service(Converter converter) {
         this.converter = converter;
     }
+    public List<String> getAnswer(int requestStationNumber) {
+        List<String> addressesCovered = getAddressesCovered(requestStationNumber);
+        return getPhonesFromAddress(addressesCovered);
+    }
+
     public List<String> getAddressesCovered(int requestStationNumber){
         JavaObjectFromJson data = converter.convertJsonToJavaObject();
         List<FireStation> savedJSonFireStation = data.getFireStations();
@@ -34,6 +37,8 @@ public class EndPoint3Service {
         }
         return addressesCovered;
     }
+
+    //TODO method de endpoint sert uniquement à 1 endpoint - pas de reutilisation dans d'autres services
     public List<String> getPhonesFromAddress(List<String> listAddress){
         JavaObjectFromJson data = converter.convertJsonToJavaObject();
         List<Person> listPerson = data.getPersons();

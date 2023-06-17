@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class AnswerEndPoint1 {
-    List<Person> listPersonCovered;
+    List<PersonEndPoint1> listPersonCovered;
     NumberAdultsAndChildren numberAdultsAndChildren;
 }
 

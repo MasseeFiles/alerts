@@ -11,11 +11,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-class EndPoint7ServiceTest {
+class EndPoint7ServiceTest {    //Assertions JUnit
     @Autowired
     private EndPoint7Service endPoint7Service;
     @Test
-    void testGetAllEmails_OK() { //methode renvoie un JavaObject à tester
+    void testGetAllEmails_OK() {
         //GIVEN
         String cityTest = ("Culver");
         //WHEN

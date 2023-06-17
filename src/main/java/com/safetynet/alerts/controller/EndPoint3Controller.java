@@ -14,7 +14,6 @@ public class EndPoint3Controller {
     private EndPoint3Service endPoint3Service;
     @GetMapping("/phoneAlert")
     public List<String> getAnswerEndPoint3(@RequestParam("firestation") int stationNumber) {
-        List<String> addressesCovered = endPoint3Service.getAddressesCovered(stationNumber);
-        return endPoint3Service.getPhonesFromAddress(addressesCovered);
+        return endPoint3Service.getAnswer(stationNumber);
     }
 }

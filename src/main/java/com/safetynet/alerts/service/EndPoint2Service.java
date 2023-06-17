@@ -17,6 +17,13 @@ public class EndPoint2Service {
     public EndPoint2Service(Converter converter) {
         this.converter = converter;
     }
+
+    public List<PersonEndPoint2> getAnswer(String requestAddress) {
+        List<Person> listPersonLivingHere = getPersonFromAddress(requestAddress);
+        List<PersonEndPoint2> listChild = getChildren(listPersonLivingHere);
+        return getListHouseHoldMembers(listChild, listPersonLivingHere);
+    }
+
     public List<Person> getPersonFromAddress(String requestAddress) {   //definit les personnes habitant à une adresse donnée
         JavaObjectFromJson data = converter.convertJsonToJavaObject();
         List<Person> savedJSonPersons = data.getPersons();
@@ -30,6 +37,11 @@ public class EndPoint2Service {
                 Person personLivingHere = new Person();
                 personLivingHere.setFirstName(person.getFirstName());
                 personLivingHere.setLastName(person.getLastName());
+                personLivingHere.setAddress(person.getAddress());
+                personLivingHere.setCity(person.getCity());
+                personLivingHere.setZip(person.getZip());
+                personLivingHere.setPhone(person.getPhone());
+                personLivingHere.setEmail(person.getEmail());
                 listPersonLivingHere.add(personLivingHere);
             }
         }
@@ -70,25 +82,23 @@ public class EndPoint2Service {
     }
 
     public List<PersonEndPoint2> getListHouseHoldMembers(List<PersonEndPoint2> listChild, List<Person> listPersonLivingHere) { //crée la liste des autres membres du foyer et l'affecte à l'enfant correspondant
+        List<Person> listHouseholdMember = new ArrayList<Person>(); // valeur de retour
         JavaObjectFromJson data = converter.convertJsonToJavaObject();
         Iterator<PersonEndPoint2> iteratorListChild = listChild.iterator();
-        List<Person> listHouseholdMember = new ArrayList<Person>();
         while (iteratorListChild.hasNext()) {
             PersonEndPoint2 child = iteratorListChild.next();
             String firstNameChild = child.getFirstName();
             String lastNameChild = child.getLastName();
 
-            Iterator<Person> iteratorListPersonLivingHere = listPersonLivingHere.iterator();
-            while (iteratorListPersonLivingHere.hasNext()) {
-                Person householdMember = iteratorListPersonLivingHere.next();
-                String firstName3 = householdMember.getFirstName();
-                String lastName3 = householdMember.getLastName();
 
-                if (firstNameChild.equals(firstName3) && lastNameChild.equals(lastName3)) {    //iteration dans listPersonLivingHere pour creer household
-                    listPersonLivingHere.remove(householdMember);
-                }
+
+//
+//listPersonLivingHere.removeIf(person -> ); //lambda : verification de comparaison child household
+//
+
+
+
                 child.setListHouseholdMember(listPersonLivingHere); //BONNE PLACE ??????
-            }
         }
         return listChild;
     }

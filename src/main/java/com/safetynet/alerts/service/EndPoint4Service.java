@@ -14,8 +14,17 @@ public class EndPoint4Service {
     private final Converter converter;
     @Autowired
     public EndPoint4Service(Converter converter) { //constructeur de la classe avec parametre
-        this.converter = converter;
+            this.converter = converter;
+        }
+    public AnswerEndPoint4 getAnswer(String requestAddress) {
+        AnswerEndPoint4 answerEndPoint4 = new AnswerEndPoint4();
+        List<Integer> listStationNumber = getStationNumber(requestAddress);
+        List<PersonEndPoint4> listPerson = getListPerson(requestAddress);
+        answerEndPoint4.setStationNumber(listStationNumber);
+        answerEndPoint4.setListPerson(listPerson);
+        return answerEndPoint4;
     }
+
     public List<Integer> getStationNumber(String requestAddress) {
         JavaObjectFromJson data = converter.convertJsonToJavaObject();
         List<FireStation> savedJSonFireStation = data.getFireStations();
@@ -28,7 +37,11 @@ public class EndPoint4Service {
 
             if (requestAddress.equals(singleAddressCovered)) {
                 int number = fireStation.getStation();
+
+
                 //iterator pour ne pas avoir de doublons dans les numeros de station - utilisation d'un hashset ???
+
+
                 stationNumber.add(number);
             }
         }

@@ -8,32 +8,37 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class EndPoint6ServiceTest {
     @Autowired
     private EndPoint6Service endPoint6Service;
-    @Test
-    void getPersonFromName_Wrong_Name() {
-        //GIVEN
-        //WHEN
-        List<AnswerEndPoint6> listAnswerEndPoint6 = endPoint6Service.getPersonFromName("wrongFirstName", "wrongLastName");
-        //THEN
-        assertTrue(listAnswerEndPoint6.isEmpty());
-    }
 
     @Test
-    void getPersonFromName_Ok() {
+    void testGetPersonFromName_Ok() {
         //GIVEN
         //WHEN
         List<AnswerEndPoint6> listAnswerEndPoint6 = endPoint6Service.getPersonFromName("Shawna", "Stelzer");
         //THEN
-        assertFalse(listAnswerEndPoint6.isEmpty());
+        assertThat(listAnswerEndPoint6).isNotEmpty();
 
-        AnswerEndPoint6 person = listAnswerEndPoint6.get(0);
-        String firstName = person.getFirstName();
-        String lastName = person.getLastName();
-        assertTrue(firstName.equals("Shawna") && lastName.equals("Stelzer"));
+        assertThat(listAnswerEndPoint6)
+                .extracting(AnswerEndPoint6::getFirstName)
+                .contains("Shawna");
+
+        assertThat(listAnswerEndPoint6)
+                .extracting(AnswerEndPoint6::getLastName)
+                .contains("Stelzer");
+    }
+
+    @Test
+    void TestGetPersonFromName_Wrong_Name() {
+        //GIVEN
+        //WHEN
+        List<AnswerEndPoint6> listAnswerEndPoint6 = endPoint6Service.getPersonFromName("wrongFirstName", "wrongLastName");
+        //THEN
+        assertThat(listAnswerEndPoint6).isEmpty();
     }
 }

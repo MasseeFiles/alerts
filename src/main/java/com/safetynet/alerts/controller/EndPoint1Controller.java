@@ -21,13 +21,6 @@ public class EndPoint1Controller {
 
     @GetMapping("/firestation")
     public AnswerEndPoint1 getAnswerEndPoint1(@RequestParam("stationNumber") int stationNumber) {
-        List<String> addressesCovered = endPoint3Service.getAddressesCovered(stationNumber);
-        List<Person> listPerson = endPoint1Service.getListPersonFromAddress(addressesCovered);
-        NumberAdultsAndChildren number = endPoint1Service.getAdultAndChildren(listPerson);
-
-        AnswerEndPoint1 answerEndPoint1 = new AnswerEndPoint1();
-        answerEndPoint1.setListPersonCovered(listPerson);
-        answerEndPoint1.setNumberAdultsAndChildren(number);
-        return answerEndPoint1;
+        return endPoint1Service.getAnswer(stationNumber);
     }
 }

@@ -16,9 +16,7 @@ public class EndPoint2Controller {
     private EndPoint2Service endPoint2Service;
     @GetMapping("/childAlert")
     public List<PersonEndPoint2> getAnswerEndPoint2(@RequestParam("address") String requestAddress) {
-        List<Person> listPersonLivingHere = endPoint2Service.getPersonFromAddress(requestAddress);
-        List<PersonEndPoint2> listChild = endPoint2Service.getChildren(listPersonLivingHere);
-        return endPoint2Service.getListHouseHoldMembers(listChild, listPersonLivingHere );
+        return endPoint2Service.getAnswer(requestAddress);
     }
 }
 
