@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class HouseHold {
-    private List<PersonEndPoint4> HouseHoldPersons;
+    private List<PersonEndPoint5> HouseHoldPersons;
     private String addressHouseHold;
 }

@@ -66,31 +66,31 @@ public class EndPoint4Service {
                 listMatchingPerson.add(personEndPoint4);
             }
 
-        Iterator<PersonEndPoint4> iteratorPersonEndPoint4 = listMatchingPerson.iterator();
-        List<MedicalRecord> savedJsonMedicalRecord = data.getMedicalRecords();
+            Iterator<PersonEndPoint4> iteratorPersonEndPoint4 = listMatchingPerson.iterator();
+            List<MedicalRecord> savedJsonMedicalRecord = data.getMedicalRecords();
 
-        while(iteratorPersonEndPoint4.hasNext()) {
-            PersonEndPoint4 personEndPoint4 = iteratorPersonEndPoint4.next();
-            String firstName = personEndPoint4.getFirstName();
-            String lastName = personEndPoint4.getLastName();
+            while(iteratorPersonEndPoint4.hasNext()) {
+                PersonEndPoint4 personEndPoint4 = iteratorPersonEndPoint4.next();
+                String firstName = personEndPoint4.getFirstName();
+                String lastName = personEndPoint4.getLastName();
 
                 Iterator<MedicalRecord> iteratorMedicalRecord = savedJsonMedicalRecord.iterator();
 
-                while(iteratorMedicalRecord.hasNext()) {
-                    MedicalRecord medicalRecord = iteratorMedicalRecord.next();
-                    String firstNameJson = medicalRecord.getFirstName();
-                    String lastNameJson = medicalRecord.getLastName();
+                    while(iteratorMedicalRecord.hasNext()) {
+                        MedicalRecord medicalRecord = iteratorMedicalRecord.next();
+                        String firstNameJson = medicalRecord.getFirstName();
+                        String lastNameJson = medicalRecord.getLastName();
 
-                        if (firstName.equals(firstNameJson) && lastName.equals(lastNameJson)) {
-                            String birthDate = medicalRecord.getBirthdate();
-                            int age = medicalRecord.getAgeFromBirthDate(birthDate);
-                            personEndPoint4.setAge(age);
-                            personEndPoint4.setMedications(medicalRecord.getMedications());
-                            personEndPoint4.setAllergies(medicalRecord.getAllergies());
-                        }
+                            if (firstName.equals(firstNameJson) && lastName.equals(lastNameJson)) {
+                                String birthDate = medicalRecord.getBirthdate();
+                                int age = medicalRecord.getAgeFromBirthDate(birthDate);
+                                personEndPoint4.setAge(age);
+                                personEndPoint4.setMedications(medicalRecord.getMedications());
+                                personEndPoint4.setAllergies(medicalRecord.getAllergies());
+                            }
                 }
             }
         }
-    return listMatchingPerson;
+        return listMatchingPerson;
     }
 }

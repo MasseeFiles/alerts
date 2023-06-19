@@ -14,12 +14,8 @@ import java.util.List;
 public class EndPoint5Controller {
     @Autowired
     private EndPoint5Service endPoint5Service;
-    @Autowired
-    private EndPoint3Service endPoint3Service;
-
     @GetMapping("/stations")
     public List<HouseHold> getAnswerEndPoint5(@RequestParam("stations") int stationNumber) {
-        List<String> addressesCovered = endPoint3Service.getAddressesCovered(stationNumber);
-        return endPoint5Service.getListHouseHold(addressesCovered);
+        return endPoint5Service.getAnswer(stationNumber);
     }
 }

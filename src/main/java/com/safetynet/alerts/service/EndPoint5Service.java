@@ -15,18 +15,40 @@ import java.util.List;
 @Service
 public class EndPoint5Service {
     private final Converter converter;
-
     @Autowired
     public EndPoint5Service(Converter converter) {
         this.converter = converter;
     }
+    public List<HouseHold> getAnswer(int stationNumber) {
+        List<HouseHold> list = new ArrayList<HouseHold>();
+        List<String> addressesCovered = getAddressCovered(stationNumber);
 
-    //
-    public List<HouseHold> getListHouseHold(List<String> addressesCovered) {
-        List<HouseHold> listHouseHold = new ArrayList<HouseHold>();
+        return list;
+    }
+    public List<String> getAddressCovered(int stationNumber) {
+        List<String> addressesCovered = new ArrayList<String>();
         JavaObjectFromJson data = converter.convertJsonToJavaObject();
-        List<Person> listPersonJson = data.getPersons();
+        List<FireStation> listAddressCoveredPersonJson = data.getFireStations();
+        Iterator<FireStation> iteratorFireStationJson = listAddressCoveredPersonJson.iterator();
 
+        while (iteratorFireStationJson.hasNext()) {
+            FireStation firestation = iteratorFireStationJson.next();
+            int stationJson = firestation.getStation();
+
+            if (stationNumber == stationJson) {
+                String addressCovered = firestation.getAddress();
+                addressesCovered.add(addressCovered);
+            }
+        }
+        return addressesCovered;
+    }
+
+
+
+    public List<HouseHold> getListHouseHold(List<String> addressesCovered) {
+            List<HouseHold> listHouseHold = new ArrayList<HouseHold>();
+            JavaObjectFromJson data = converter.convertJsonToJavaObject();
+            List<Person> listPersonJson = data.getPersons();
 //map get put
         //list contains
 
