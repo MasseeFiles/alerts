@@ -107,7 +107,7 @@ public class EndPoint1Service {
                     String birthDate = medicalRecord.getBirthdate();
                     int age = medicalRecord.getAgeFromBirthDate(birthDate);
 
-                    if (age > 18) {
+                    if (age >= 18) {
                         numberAdults = numberAdults + 1;
                         number.setNumberAdults(numberAdults);
                     } else {

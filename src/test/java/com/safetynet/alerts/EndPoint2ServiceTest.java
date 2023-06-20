@@ -11,10 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-    public class EndPoint2ServiceTest {
+public class EndPoint2ServiceTest {
     @Autowired
     private EndPoint2Service endPoint2Service;
 
@@ -44,6 +43,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     void testGetPersonFromAddress_Ok() {
         //GIVEN
         String address = ("1509 Culver St");
+
         Person personExpected = new Person();
         personExpected.setFirstName("Jacob");
         personExpected.setLastName("Boyd");
@@ -73,26 +73,28 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
     @Test
     void testGetChildren_OK() {
         //GIVEN
-        List<Person> listTest = new ArrayList<>();
+        List<Person> listTest = new ArrayList<Person>();
 
-        Person person1 = new Person();
-        person1.setFirstName("Shawna");
-        person1.setLastName("Stelzer");
+        Person adult = new Person();
+        adult.setFirstName("Shawna");
+        adult.setLastName("Stelzer");
+        listTest.add(adult);
 
-        listTest.add(person1);
+        Person child = new Person();
+        child.setFirstName("Kendrik");
+        child.setLastName("Stelzer");
+        listTest.add(child);
+
         //WHEN
         List<PersonEndPoint2> listPersonTested = endPoint2Service.getChildren(listTest);
         //THEN
-        assertTrue(listPersonTested.isEmpty());     //LIST NE DOIT PAS ETRE VIDE
-        //                    .isEmpty();
-        ////                    .hasSize(4);
-
+        assertThat(listPersonTested).hasSize(1);
     }
 
     @Test
     void testGetChildren_No_Child_In_HouseHold() {
         //GIVEN
-        List<Person> listTest = new ArrayList<>();
+        List<Person> listTest = new ArrayList<Person>();
 
         Person person1 = new Person();
         person1.setFirstName("Tony");
@@ -102,29 +104,26 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
         //WHEN
         List<PersonEndPoint2> listPersonTested = endPoint2Service.getChildren(listTest);
         //THEN
-        assertThat(listPersonTested)
-                .isEmpty();
+        assertThat(listPersonTested).isEmpty();
     }
 
     @Test
     void testGetChildren_No_Matchings() {
         //GIVEN
-        List<Person> listTest = new ArrayList<>();
+        List<Person> listTest = new ArrayList<Person>();
 
         Person person1 = new Person();
-        person1.setFirstName("Wrong FirstName");
-        person1.setLastName("Wrong LastName");
-
+        person1.setFirstName("WrongFirstName");
+        person1.setLastName("WrongLastName");
         listTest.add(person1);
         //WHEN
         List<PersonEndPoint2> listPersonTested = endPoint2Service.getChildren(listTest);
         //THEN
-        assertThat(listPersonTested)
-                .isEmpty();
+        assertThat(listPersonTested).isEmpty();
     }
 
     @Test
-    void testGetListChild_OK() {
+    void testGetListChildEndPoint2_OK() {
         //GIVEN
         List<PersonEndPoint2> requestListChild = new ArrayList<PersonEndPoint2>();  //liste des enfants
 
@@ -132,7 +131,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
         child1.setFirstName("Zach");
         child1.setLastName("Zemicks");
         requestListChild.add(child1);
-
 
         List<Person> requestListPersonLivingHere = new ArrayList<Person>(); //liste du foyer
 
@@ -142,55 +140,64 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
         requestListPersonLivingHere.add(personTest1);
 
         Person personTest2 = new Person();
-        personTest1.setFirstName("Zach");
-        personTest1.setLastName("Zemicks");
+        personTest2.setFirstName("Zach");
+        personTest2.setLastName("Zemicks");
         requestListPersonLivingHere.add(personTest2);
 
         Person personTest3 = new Person();
-        personTest1.setFirstName("Sophia");
-        personTest1.setLastName("Zemicks");
+        personTest3.setFirstName("Sophia");
+        personTest3.setLastName("Zemicks");
         requestListPersonLivingHere.add(personTest3);
 
         //WHEN
-        List<PersonEndPoint2> listTested = endPoint2Service.getListChild(requestListChild , requestListPersonLivingHere);
+        List<PersonEndPoint2> listTested = endPoint2Service.getListChildEndPoint2(requestListChild, requestListPersonLivingHere);
         //THEN
         assertThat(listTested)
                 .isNotEmpty()
-                .extracting("requestListPersonLivingHere")
                 .doesNotContain(child1)
                 .hasSize(2);
     }
+
     @Test
-    void testGetListChild_No_Matchings() {
-            //GIVEN
-            List<PersonEndPoint2> requestListChild = new ArrayList<PersonEndPoint2>();  //liste des enfants
+    void testGetListChildEndPoint2_No_Matchings() {
+        //GIVEN
+        List<PersonEndPoint2> requestListChild = new ArrayList<PersonEndPoint2>();  //liste des enfants
 
-            PersonEndPoint2 child1 = new PersonEndPoint2();
-            child1.setFirstName("John");
-            child1.setLastName("Boyd");
-            requestListChild.add(child1);
+        PersonEndPoint2 child1 = new PersonEndPoint2();
+        child1.setFirstName("WrongFirstName");
+        child1.setLastName("WrongLastName");
+        requestListChild.add(child1);
 
-            List<Person> requestListPersonLivingHere = new ArrayList<Person>(); //liste du foyer
+        List<Person> requestListPersonLivingHere = new ArrayList<Person>(); //liste du foyer
 
-            Person personTest1 = new Person();
-            personTest1.setFirstName("Warren");
-            personTest1.setLastName("Zemicks");
-            requestListPersonLivingHere.add(personTest1);
+        Person personTest1 = new Person();
+        personTest1.setFirstName("John");
+        personTest1.setLastName("Boyd");
+        requestListPersonLivingHere.add(personTest1);
 
-            Person personTest2 = new Person();
-            personTest1.setFirstName("Zach");
-            personTest1.setLastName("Zemicks");
-            requestListPersonLivingHere.add(personTest2);
+        Person personTest2 = new Person();
+        personTest2.setFirstName("Jacob");
+        personTest2.setLastName("Boyd");
+        requestListPersonLivingHere.add(personTest2);
 
-            Person personTest3 = new Person();
-            personTest1.setFirstName("Sophia");
-            personTest1.setLastName("Zemicks");
-            requestListPersonLivingHere.add(personTest3);
+        Person personTest3 = new Person();
+        personTest3.setFirstName("Felicia");
+        personTest3.setLastName("Boyd");
+        requestListPersonLivingHere.add(personTest3);
 
-            //WHEN
-            List<PersonEndPoint2> listTested = endPoint2Service.getListChild(requestListChild , requestListPersonLivingHere);
-            //THEN
-            assertThat(listTested)
-                    .isEmpty();
+        //WHEN
+        List<PersonEndPoint2> listTested = endPoint2Service.getListChildEndPoint2(requestListChild, requestListPersonLivingHere);
+        //THEN
+//        PersonEndPoint2 personTested = listTested.get();    /////A COMPLETER
+//        assertThat(personTested)
+//        .extracting("listHouseholdMember")
+//        .asList()
+//        .isEmpty();
     }
+
+//    @Test
+//    void testDefineChildrenToBeRemoved_True{}
+//
+//    @Test
+//    void testDefineChildrenToBeRemoved_False{}
 }

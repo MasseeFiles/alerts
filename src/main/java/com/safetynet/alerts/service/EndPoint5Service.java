@@ -9,9 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+
 @Service
 public class EndPoint5Service {
     private final Converter converter;
@@ -60,6 +59,17 @@ public class EndPoint5Service {
 //            String address = iteratorAddressJson.next();
 //            Iterator<Person> iteratorPerson = listPersonJson.iterator();
 //
+
+        // method si inclus , a mettre dans la map
+
+        Map<String,HouseHold> map = new HashMap<>();    //instancié directement
+
+//        map.get()// adresse lie a household
+//        map.containsKey()//address
+
+        // si necessaire creation du household
+//        map.put  // adresse et household correspondant
+
 //            while (iteratorPerson.hasNext()) {
 //                Person person = iteratorPerson.next();
 //                String addressPerson = person.getAddress();
@@ -70,6 +80,11 @@ public class EndPoint5Service {
 //
 //                return listHouseHold;
 //
+//        map.values // retourne list household
+
+
+
+
 //            }
 //        }
         return null;

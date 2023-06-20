@@ -28,10 +28,11 @@ public class EndPoint1ServiceTest {
         List<PersonEndPoint1> listPersonCoveredTested = answerEndPoint1Tested.getListPersonCovered();
         assertThat(listPersonCoveredTested)
                 .isNotEmpty();
-//        Pourquoi ne marche pas ???
-//        assertThat(answerEndPoint1Tested)
-//                .extracting("listPersonCovered")
-//                .isNotEmpty();
+
+        assertThat(answerEndPoint1Tested)
+                .extracting("listPersonCovered")
+                .asList()                       // Indique au compilateur que la String "listPersonCovered" est une List
+                .hasSize(6);
     }
     @Test
     void testGetAnswer_Wrong_Number() {
@@ -43,15 +44,11 @@ public class EndPoint1ServiceTest {
         List<PersonEndPoint1> listPersonCoveredTested = answerEndPoint1Tested.getListPersonCovered();
         assertThat(listPersonCoveredTested)
                 .isEmpty();
-        //        Pourquoi ne marche pas ???
-//        assertThat(answerEndPoint1Tested)
-//                .extracting("listPersonCovered")
-//                .isNotEmpty();
     }
     @Test
-    void testGetAddressesCovered_Ok() {    //retourne une list<String>
+    void testGetAddressesCovered_Ok() {
         //GIVEN
-        int station = 1; //Au moins une station 1 dans le fichier JSON
+        int station = 1; //Au moins une station avec #1 dans le fichier JSON
         //WHEN
         List<String> listAddressCoveredTested = endPoint1Service.getAddressesCovered(station);
         //THEN
@@ -60,7 +57,7 @@ public class EndPoint1ServiceTest {
                 .contains("644 Gershwin Cir");
     }
     @Test
-    void testGetAddressesCovered_Wrong_StationNumber() {    //retourne une list<String>
+    void testGetAddressesCovered_Wrong_StationNumber() {
         //GIVEN
         int station = -1;   //Test avec un numero negatif de station
         //WHEN
@@ -69,7 +66,7 @@ public class EndPoint1ServiceTest {
         assertThat(listAddressCoveredTested).isEmpty();
     }
     @Test
-    void testGetListPersonFromAddress_Ok() {    //retourne une list<String>
+    void testGetListPersonFromAddress_Ok() {
         //GIVEN
         List<String> listTest = new ArrayList<>();
         listTest.add("1509 Culver St");
@@ -94,17 +91,18 @@ public class EndPoint1ServiceTest {
         //WHEN
         List<Person> listPersonTested = endPoint1Service.getListPersonFromAddress(listTest);
         //THEN
-        assertThat(listPersonTested)
-                .isEmpty();
+        assertThat(listPersonTested).isEmpty();
     }
     @Test
     void testGetAdultAndChildren_Ok_Adults() {
         //GIVEN
         List<Person> listTest = new ArrayList<>();
+
         Person person1 = new Person();
         person1.setFirstName("John");
         person1.setLastName("Boyd");
         listTest.add(person1);
+
         //WHEN
         NumberAdultsAndChildren numberAdultsAndChildrenTested = endPoint1Service.getAdultAndChildren(listTest);
         //THEN
@@ -117,24 +115,19 @@ public class EndPoint1ServiceTest {
             .isEqualTo(0);
     }
     @Test
-    void testGetAdultAndChildren_Ok_Children() {    //pb - ne marche poas avec Zack Zemicks
+    void testGetAdultAndChildren_Ok_Children() {
         //GIVEN
         List<Person> listTest = new ArrayList<>();
 
-        Person person1 = new Person();
-        person1.setFirstName("Tessa");
-        person1.setLastName("Carman");
-        listTest.add(person1);
+        Person child1 = new Person();
+        child1.setFirstName("Tessa");
+        child1.setLastName("Carman");
+        listTest.add(child1);
 
-        Person person2 = new Person();
-        person2.setFirstName("Kendrik");
-        person2.setLastName("Stelzer");
-        listTest.add(person2);
-
-//        Person person3 = new Person();
-//        person3.setFirstName("Zack");
-//        person3.setLastName("Zemicks");
-//        listTest.add(person3);
+        Person child2 = new Person();
+        child2.setFirstName("Kendrik");
+        child2.setLastName("Stelzer");
+        listTest.add(child2);
 
         //WHEN
         NumberAdultsAndChildren numberAdultsAndChildrenTested = endPoint1Service.getAdultAndChildren(listTest);
@@ -163,6 +156,7 @@ public class EndPoint1ServiceTest {
         assertThat(numberAdultsAndChildrenTested)
                 .extracting("numberAdults")
                 .isEqualTo(0);
+
         assertThat(numberAdultsAndChildrenTested)
                 .extracting("numberChildren")
                 .isEqualTo(0);
