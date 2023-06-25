@@ -96,7 +96,7 @@ public class EndPoint2Service {
         return childrenLivingHere;
     }
 
-    private boolean defineChildrenToBeRemoved(Person person) {
+    public boolean defineChildrenToBeRemoved(Person person) {
         JavaObjectFromJson data = converter.convertJsonToJavaObject();
         List<MedicalRecord> listMedicalRecord = data.getMedicalRecords();
         Iterator<MedicalRecord> iteratorMedicalRecord = listMedicalRecord.iterator();

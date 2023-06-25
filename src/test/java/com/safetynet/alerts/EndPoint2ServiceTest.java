@@ -154,8 +154,8 @@ public class EndPoint2ServiceTest {
         //THEN
         assertThat(listTested)
                 .isNotEmpty()
-                .doesNotContain(child1)
-                .hasSize(2);
+                .contains(child1)
+                .hasSize(1);
     }
 
     @Test
@@ -188,16 +188,34 @@ public class EndPoint2ServiceTest {
         //WHEN
         List<PersonEndPoint2> listTested = endPoint2Service.getListChildEndPoint2(requestListChild, requestListPersonLivingHere);
         //THEN
-//        PersonEndPoint2 personTested = listTested.get();    /////A COMPLETER
-//        assertThat(personTested)
-//        .extracting("listHouseholdMember")
-//        .asList()
-//        .isEmpty();
+        assertThat(listTested).hasSize(1);
+
+        assertThat(listTested)
+                .extracting(PersonEndPoint2::getLastName)
+                .contains("WrongLastName");
     }
 
-//    @Test
-//    void testDefineChildrenToBeRemoved_True{}
-//
-//    @Test
-//    void testDefineChildrenToBeRemoved_False{}
+    @Test
+    void testDefineChildrenToBeRemoved_Adult() {
+        //GIVEN
+        Person adult = new Person();
+        adult.setFirstName("Reginold");
+        adult.setLastName("Walker");
+        //WHEN
+        boolean booleanTested = endPoint2Service.defineChildrenToBeRemoved(adult);
+        //THEN
+        assertThat(booleanTested).isFalse();
+    }
+
+    @Test
+    void testDefineChildrenToBeRemoved_Child() {
+        //GIVEN
+        Person child = new Person();
+        child.setFirstName("Roger");
+        child.setLastName("Boyd");
+        //WHEN
+        boolean booleanTested = endPoint2Service.defineChildrenToBeRemoved(child);
+        //THEN
+        assertThat(booleanTested).isTrue();
+    }
 }

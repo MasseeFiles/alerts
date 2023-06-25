@@ -4,7 +4,7 @@ import com.safetynet.alerts.model.Person;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class fireStationCrud {
+public class FireStationCrud {
     public void addFireStation(Person person){  //ecriture dans fichier data.json
     }
 

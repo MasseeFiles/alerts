@@ -1,9 +1,7 @@
 package com.safetynet.alerts.repository;
 
-import com.safetynet.alerts.model.Person;
-
 //@Repository
-public class medicalRecordCrud {
+public class MedicalRecordCrud {
 
     public void addMedicalRecord(String firstName, String lastName){  //sauvegarde birthdate, medications et allergies
     }

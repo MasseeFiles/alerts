@@ -22,6 +22,16 @@ public class Converter {
         }
     }
 
+    public String convertJavaObjectToJsonString(Object javaObject){  //Ecriture dans le json: prend en parametre un objet Java et fait la conversion et l'ecriture dans fichier json
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            return objectMapper.writeValueAsString(javaObject);    //jsonString
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public JavaObjectFromJson convertJsonToJavaObject() { //Lecture dans le json : prend en paramètre un objet json lu dans dataen string, fait la conversion et retourne un objet Java
         try {
             ObjectMapper mapper = new ObjectMapper();
