@@ -2,8 +2,8 @@ package com.safetynet.alerts.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.alerts.model.JavaObjectFromJson;
+import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
-import com.safetynet.alerts.model.PersonEndPoint4;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,22 +12,62 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 @Service
 public class PersonCrud {
     private final Converter converter;
+
     @Autowired
     public PersonCrud(Converter converter) { //constructeur de la classe avec parametre
         this.converter = converter;
     }
-    public void addPerson(Person person){  //method write value pour transformer objet java en string json
 
+    public void addPerson(Person personToAdd) {
+        //convertir objet java à chercher (une personne) en string json
+        String jsonObjectToUpdate = converter.convertJavaObjectToJsonString(personToAdd);
+
+        //rechercher l'objet/string JSon dans le fichier JSon
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonStringToAdd = null;
+        try {
+            Person jsonObjectToFind = objectMapper.readValue(new File("src/main/resources/data.json"), Person.class);
+            if (jsonObjectToFind.equals(personToAdd)) {
+                jsonStringToAdd = converter.convertJavaObjectToJsonString(jsonObjectToFind);    //definition de la string à remplacer dans fichier Json
+            } else {
+                System.out.println("JSON object not found in the file.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String jsonObjectUpdated = converter.convertJavaObjectToJsonString(personToAdd); //conversion de l'objet personToAdd à ajouter en Json object
+
+        // modification du fichier Json
+        // 1: Read the contents of the JSON file
+        String filePath = "src/main/resources/data.json";
+        String fileContents;
+        try {
+            fileContents = new String(Files.readAllBytes(Paths.get(filePath)));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        // 2: Modify the JSON string
+        String modifiedContents = fileContents.replace(jsonStringToAdd, jsonObjectUpdated);
+
+        // 3: Write the modified contents back to the file
+        try {
+            Path path = Paths.get("src/main/resources/data.json");
+            Files.write(path, modifiedContents.getBytes());
+            System.out.println("JSON string replaced successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void updateAddress(String firstName, String lastName, String addressToUpdate){
+    public void updateAddress(String firstName, String lastName, String addressToUpdate) {
         // Methodo Pierre :
         // creer objet person (java) vide
         // lui donner en attribut les données recuperer dans json correspondantes (identification avec firstname et lastname)
@@ -68,7 +108,7 @@ public class PersonCrud {
                 try {
                     Person jsonObjectToFind = objectMapper.readValue(new File("src/main/resources/data.json"), Person.class);
                     if (jsonObjectToFind.equals(personToUpdate)) {
-                        jsonStringToReplace = objectMapper.writeValueAsString(jsonObjectToFind);    //definition de la string à remplacer dans fichier Json
+                        jsonStringToReplace = converter.convertJavaObjectToJsonString(jsonObjectToFind);    //definition de la string à remplacer dans fichier Json
                     } else {
                         System.out.println("JSON object not found in the file.");
                     }
@@ -104,7 +144,7 @@ public class PersonCrud {
         }
     }
 
-    public void updateCity(String firstName, String lastName, String cityToUpdate){
+    public void updateCity(String firstName, String lastName, String cityToUpdate) {
 
         Person personToUpdate = new Person();
 
@@ -137,7 +177,7 @@ public class PersonCrud {
                 try {
                     Person jsonObjectToFind = objectMapper.readValue(new File("src/main/resources/data.json"), Person.class);
                     if (jsonObjectToFind.equals(personToUpdate)) {
-                        jsonStringToReplace = objectMapper.writeValueAsString(jsonObjectToFind);    //definition de la string à remplacer dans fichier Json
+                        jsonStringToReplace = converter.convertJavaObjectToJsonString(jsonObjectToFind);    //definition de la string à remplacer dans fichier Json
                     } else {
                         System.out.println("JSON object not found in the file.");
                     }
@@ -173,7 +213,7 @@ public class PersonCrud {
         }
     }
 
-    public void updateZip(String firstName, String lastName, String zipToUpdate){
+    public void updateZip(String firstName, String lastName, String zipToUpdate) {
         Person personToUpdate = new Person();
 
         personToUpdate.setFirstName(firstName);
@@ -205,7 +245,7 @@ public class PersonCrud {
                 try {
                     Person jsonObjectToFind = objectMapper.readValue(new File("src/main/resources/data.json"), Person.class);
                     if (jsonObjectToFind.equals(personToUpdate)) {
-                        jsonStringToReplace = objectMapper.writeValueAsString(jsonObjectToFind);    //definition de la string à remplacer dans fichier Json
+                        jsonStringToReplace = converter.convertJavaObjectToJsonString(jsonObjectToFind);    //definition de la string à remplacer dans fichier Json
                     } else {
                         System.out.println("JSON object not found in the file.");
                     }
@@ -241,7 +281,7 @@ public class PersonCrud {
         }
     }
 
-    public void updatePhone(String firstName, String lastName, String phoneToUpdate){
+    public void updatePhone(String firstName, String lastName, String phoneToUpdate) {
         Person personToUpdate = new Person();
 
         personToUpdate.setFirstName(firstName);
@@ -273,7 +313,7 @@ public class PersonCrud {
                 try {
                     Person jsonObjectToFind = objectMapper.readValue(new File("src/main/resources/data.json"), Person.class);
                     if (jsonObjectToFind.equals(personToUpdate)) {
-                        jsonStringToReplace = objectMapper.writeValueAsString(jsonObjectToFind);    //definition de la string à remplacer dans fichier Json
+                        jsonStringToReplace = converter.convertJavaObjectToJsonString(jsonObjectToFind);    //definition de la string à remplacer dans fichier Json
                     } else {
                         System.out.println("JSON object not found in the file.");
                     }
@@ -309,7 +349,7 @@ public class PersonCrud {
         }
     }
 
-    public void updateEmail(String firstName, String lastName, String emailToUpdate){
+    public void updateEmail(String firstName, String lastName, String emailToUpdate) {
         Person personToUpdate = new Person();
 
         personToUpdate.setFirstName(firstName);
@@ -341,7 +381,7 @@ public class PersonCrud {
                 try {
                     Person jsonObjectToFind = objectMapper.readValue(new File("src/main/resources/data.json"), Person.class);
                     if (jsonObjectToFind.equals(personToUpdate)) {
-                        jsonStringToReplace = objectMapper.writeValueAsString(jsonObjectToFind);    //definition de la string à remplacer dans fichier Json
+                        jsonStringToReplace = converter.convertJavaObjectToJsonString(jsonObjectToFind);    //definition de la string à remplacer dans fichier Json
                     } else {
                         System.out.println("JSON object not found in the file.");
                     }
@@ -377,17 +417,127 @@ public class PersonCrud {
         }
     }
 
-    public void updateBirthdate(String birthdate){
+    public void updateBirthdate(String birthdate) {
     }
 
-    public void updateMedications(List<String> medications){
+    public void updateMedications(List<String> medications) {
     }
 
-    public void updateAllergies(List<String> allergies){
+    public void updateAllergies(List<String> allergies) {
     }
 
-    public void deletePerson(String firstName, String lastName){
-        //effacement dans person et dans medicalRecord
+    public void deletePerson(String firstName, String lastName) {
+        Person personToDelete = new Person();
+
+        personToDelete.setFirstName(firstName);
+        personToDelete.setLastName(lastName);
+
+        JavaObjectFromJson data = converter.convertJsonToJavaObject();
+        List<Person> savedJSonPersons = data.getPersons();
+        Iterator<Person> iteratorPerson = savedJSonPersons.iterator();
+
+        while (iteratorPerson.hasNext()) {
+            Person person = iteratorPerson.next();
+            String personFirstName = person.getFirstName();
+            String personLastName = person.getLastName();
+
+            if (personToDelete.getFirstName().equals(personFirstName) && personToDelete.getLastName().equals(personLastName)) {
+
+                // definir l'objet Json à chercher dans le fichier data.json
+                personToDelete.setAddress(person.getAddress());
+                personToDelete.setCity(person.getCity());
+                personToDelete.setZip(person.getZip());
+                personToDelete.setPhone(person.getPhone());
+                personToDelete.setEmail(person.getEmail());
+
+        //rechercher l'objet/string JSon dans le fichier JSon
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonStringToReplace = null;
+        try {
+            Person jsonObjectToFind = objectMapper.readValue(new File("src/main/resources/data.json"), Person.class);
+            if (jsonObjectToFind.equals(personToDelete)) {
+                jsonStringToReplace = converter.convertJavaObjectToJsonString(jsonObjectToFind);    //definition de la string à remplacer dans fichier Json
+            } else {
+                System.out.println("JSON object not found in the file.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // modification du fichier Json
+        // 1: Read the contents of the JSON file
+        String filePath = "src/main/resources/data.json";
+        String fileContents;
+        try {
+            fileContents = new String(Files.readAllBytes(Paths.get(filePath)));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+        // 2: Delete the JSON string
+        String jsonObjectDeleted = ("");
+        String modifiedContents = fileContents.replace(jsonStringToReplace, jsonObjectDeleted); //suppression de l'objet JSon dans le fichier
+
+        // 3: Write the modified contents back to the file
+        try {
+            Path path = Paths.get("src/main/resources/data.json");
+            Files.write(path, modifiedContents.getBytes());
+            System.out.println("JSON string replaced successfully.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+//    //effacement dans medicalRecord
+//    List<MedicalRecord> savedJSonMedicalRecord = data.getMedicalRecords();
+//    Iterator<MedicalRecord> iteratorMedicalRecord = savedJSonMedicalRecord.iterator();
+//
+//    while (iteratorPerson.hasNext()) {
+//        MedicalRecord medicalRecord = iteratorMedicalRecord.next();
+//        String medicalRecordFirstName = medicalRecord.getFirstName();
+//        String medicalRecordLastName = medicalRecord.getLastName();
+//
+//        if (personToDelete.getFirstName().equals(medicalRecordFirstName) && personToDelete.getLastName().equals(medicalRecordLastName)) {
+//
+//            // definir l'objet medicalRecord à chercher dans le fichier data.json
+//            MedicalRecord medicalRecordToDelete = medicalRecord;
+//            String jsonObjectToDelete = converter.convertJavaObjectToJsonString(medicalRecord);
+//            //rechercher l'objet/string JSon dans le fichier JSon
+//            ObjectMapper objectMapper = new ObjectMapper();
+//            String jsonStringToDelete = null;
+//            try {
+//                Person jsonObjectToFind = objectMapper.readValue(new File("src/main/resources/data.json"), Person.class);
+//                if (jsonObjectToFind.equals(jsonObjectToDelete)) {
+//                    medicalRecordToDelete = converter.convertJavaObjectToJsonString(medicalRecordToDelete);    //definition de la string à supprimer dans fichier Json
+//                } else {
+//                    System.out.println("JSON object not found in the file.");
+//                }
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            // modification du fichier Json
+//            // 1: Read the contents of the JSON file
+//            String filePath = "src/main/resources/data.json";
+//            String fileContents;
+//            try {
+//                fileContents = new String(Files.readAllBytes(Paths.get(filePath)));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                return;
+//            }
+//            // 2: Delete the JSON string
+//            String medicalRecordDeleted = ("");
+//            String modifiedContents = fileContents.replace(medicalRecordToDelete, medicalRecordDeleted); //suppression de l'objet JSon dans le fichier
+//
+//            // 3: Write the modified contents back to the file
+//            try {
+//                Path path = Paths.get("src/main/resources/data.json");
+//                Files.write(path, modifiedContents.getBytes());
+//                System.out.println("JSON string replaced successfully.");
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+        }
+    }
 }
