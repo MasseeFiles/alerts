@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class EndPoint4Controller {
     @Autowired
     private EndPoint4Service endPoint4Service;
-
     @GetMapping("/fire")
     public AnswerEndPoint4 getAnswerEndPoint4(@RequestParam("address") String requestAddress) {
         return endPoint4Service.getAnswer(requestAddress);

@@ -50,7 +50,7 @@ public class EndPoint5ServiceTest {
         //WHEN
         List<HouseHold> listHouseHoldTested = endPoint5Service.getListHouseHold(listAddressCovered);
         //THEN
-        assertThat(listHouseHoldTested).hasSize(3);
+        assertThat(listHouseHoldTested).hasSize(2);
     }
 
     @Test

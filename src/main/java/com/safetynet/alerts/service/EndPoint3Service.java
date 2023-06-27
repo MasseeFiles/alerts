@@ -38,7 +38,6 @@ public class EndPoint3Service {
         return addressesCovered;
     }
 
-    //TODO method de endpoint sert uniquement à 1 endpoint - pas de reutilisation dans d'autres services
     public List<String> getPhonesFromAddress(List<String> listAddress){
         JavaObjectFromJson data = converter.convertJsonToJavaObject();
         List<Person> listPerson = data.getPersons();
