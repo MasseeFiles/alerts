@@ -2,12 +2,13 @@ package com.safetynet.alerts.repository;
 
 import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.model.JavaObjectFromJson;
-import com.safetynet.alerts.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @Repository
 public class FireStationRepository {
@@ -18,14 +19,12 @@ public class FireStationRepository {
     public FireStationRepository(Converter converter) { //constructeur de la classe avec parametre converter
         this.converter = converter;
     }
-
     @PostConstruct
     public void buildFireStations() {
         JavaObjectFromJson data = converter.convertJsonToJavaObject();
         List<FireStation> listFireStationJson = data.getFireStations();
         fireStations.addAll(listFireStationJson);
     }
-
     public List<FireStation> getFireStations() {  //methode a utiliser pour recuperer persons dans json
         return fireStations;
     }
@@ -92,16 +91,16 @@ public class FireStationRepository {
 //            }
 //        }
 
-    public void deleteFireStation(Integer stationNumberToUpdate, String address) {
-        FireStation fireStationToDelete = new FireStation();
-        fireStationToDelete.setStation(stationNumberToUpdate);
-        fireStationToDelete.setAddress(address);
-
-        fireStations.remove(fireStationToDelete);
-//        boolean wasRemoved = fireStations.removeIf(fireStation -> person.getFirstName().equals(personRequest.getFirstName()) && person.getLastName().equals(personRequest.getLastName()));  // true si person existe deja dans le fichier json
+//    public void deleteFireStation(Integer stationNumberToUpdate, String address) {
+//        FireStation fireStationToDelete = new FireStation();
+//        fireStationToDelete.setStation(stationNumberToUpdate);
+//        fireStationToDelete.setAddress(address);
+//
+//        fireStations.remove(fireStationToDelete);
+//        boolean wasRemoved = fireStations.removeIf(fireStation -> KEY VALUE IDENTIQUE);  // true si person existe deja dans le fichier json
 //
 //        if (wasRemoved == false) {
 //            throw new IllegalArgumentException("Deletion cancelled : person is not listed in the database");
 //        }
-    }
+//    }
 }

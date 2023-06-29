@@ -60,10 +60,7 @@ public class PersonRepository {
     }
 
     public void deletePerson(String firstNameRequest , String lastNameRequest) {
-        Person personRequest = new Person();
-        personRequest.setFirstName(firstNameRequest);
-        personRequest.setLastName(lastNameRequest);
-        boolean wasRemoved = persons.removeIf(person -> person.getFirstName().equals(personRequest.getFirstName()) && person.getLastName().equals(personRequest.getLastName()));  // true si person existe deja dans le fichier json
+        boolean wasRemoved = persons.removeIf(person -> person.getFirstName().equals(firstNameRequest) && person.getLastName().equals(lastNameRequest));  // true si person existe deja dans le fichier json
 
         if (wasRemoved == false) {
             throw new IllegalArgumentException("Deletion cancelled : person is not listed in the database");
