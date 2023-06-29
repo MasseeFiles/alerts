@@ -31,8 +31,8 @@ public class PersonRepository {
         return persons;
     }
 
-    public void addPerson(Person personToAdd) {
-        Iterator<Person> iteratorPerson = persons.iterator(); //methode addIf() n'existe pas
+    public void addPerson(Person personToAdd) { //pas de lambda car pas de method addIf() - iterator
+        Iterator<Person> iteratorPerson = persons.iterator();
 
         while (iteratorPerson.hasNext()) {
             Person personJson = iteratorPerson.next();
@@ -42,52 +42,36 @@ public class PersonRepository {
             String personToAddLastName = personToAdd.getLastName();
 
             if (personToAddFirstName.equals(personJsonFirstName) && personToAddLastName.equals(personJsonLastName)) {
-                persons.add(personToAdd);
-            } else {
                 throw new IllegalArgumentException("Saving cancelled : person is already listed in the database");
+            } else {
+                persons.add(personToAdd);
             }
         }
     }
 
-    public void updatePerson(Person personToUpdate) {    //cas des medicalrecords
+    public void updatePerson(Person personToUpdate) {
         boolean wasUpdated = persons.removeIf(person -> person.getFirstName().equals(personToUpdate.getFirstName()) && person.getLastName().equals(personToUpdate.getLastName()));  // true si person existe deja dans le fichier json
 
         if (wasUpdated == true) {
-            Iterator<Person> iteratorPerson = persons.iterator(); //methode addIf() n'existe pas
-
-            while (iteratorPerson.hasNext()) {
-                Person personJson = iteratorPerson.next();
-                String personJsonFirstName = personJson.getFirstName();
-                String personJsonLastName = personJson.getLastName();
-                String personToUpdateFirstName = personToUpdate.getFirstName();
-                String personToUpdateLastName = personToUpdate.getLastName();
-
-                if (personToUpdateFirstName.equals(personJsonFirstName) && personToUpdateLastName.equals(personJsonLastName)) {
-                    persons.remove(personJson);
                     persons.add(personToUpdate);
-                }
-            }
         } else {
             throw new IllegalArgumentException("Update cancelled : person can't be found in the database");
         }
     }
 
-    public void deletePerson(Person personToDelete) {
-        boolean wasRemoved = persons.removeIf(person -> person.getFirstName().equals(personToDelete.getFirstName()) && person.getLastName().equals(personToDelete.getLastName()));  // true si person existe deja dans le fichier json
+    public void deletePerson(String firstNameRequest , String lastNameRequest) {
+        Person personRequest = new Person();
+        personRequest.setFirstName(firstNameRequest);
+        personRequest.setLastName(lastNameRequest);
+        boolean wasRemoved = persons.removeIf(person -> person.getFirstName().equals(personRequest.getFirstName()) && person.getLastName().equals(personRequest.getLastName()));  // true si person existe deja dans le fichier json
 
-        if (wasRemoved == true) {
-            persons.remove(personToDelete);
-        } else {
-            throw new IllegalArgumentException("Deletion canceled : person is not listed in the database");
+        if (wasRemoved == false) {
+            throw new IllegalArgumentException("Deletion cancelled : person is not listed in the database");
         }
     }
 }
 
 
-//    public void updateAddress(String firstName, String lastName, String addressToUpdate) {
-
-
-// Methodo Pierre :
 // creer objet person (java) vide
 // lui donner en attribut les données recuperer dans json correspondantes (identification avec firstname et lastname)
 //modifier objet person (java) en changeant attribut address (setter)

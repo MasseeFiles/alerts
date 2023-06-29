@@ -9,13 +9,16 @@ import org.springframework.stereotype.Service;
 public class EndPointPersonService {
     @Autowired
     private PersonRepository personRepository;
-    public void put(Person person){
+
+    public void addPerson(Person person) {
         personRepository.addPerson(person);
     }
-    public void post(Person person){
+
+    public void updatePerson(Person person) {
         personRepository.updatePerson(person);
-        }
-    public void delete(Person person){
-        personRepository.deletePerson(person);
+    }
+
+    public void deletePerson(String firstName, String lastName) {
+        personRepository.deletePerson(firstName, lastName);
     }
 }

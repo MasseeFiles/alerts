@@ -25,31 +25,22 @@ public class PersonRepositoryTest {
     }
 
     @Test
-    void testAddPerson_Ok() {   //buildPersons à mocker poour tester une liste particuliere???
-        //GIVEN
-
-        // Mock pour renvoyer List<Person> persons
-
+    void testAddPerson_Ok() {
         Person personTest = new Person();
-        personTest.setFirstName("Swawna");
-        personTest.setLastName("Stelzer");
+        personTest.setFirstName("FirstNameTest");
+        personTest.setLastName("LastNameTest");
         //WHEN
         personRepository.addPerson(personTest);
         //THEN
-
-//        //assertion sur un mock
-//        assertThat(MOCK).isNotEmpty();
-
+        List<Person> personsTested = personRepository.getPersons();
+        assertThat(personsTested)
+                .contains(personTest);
     }
 
     @Test
-    void testAddPerson_Cancelled() {
-        //GIVEN
-
-        // Mock pour renvoyer List<Person> persons
-
+    void testAddPerson_Already_Exist() {
         Person personTest = new Person();
-        personTest.setFirstName("Swawna");
+        personTest.setFirstName("Shawna");
         personTest.setLastName("Stelzer");
         //WHEN
         personRepository.addPerson(personTest);
@@ -62,32 +53,26 @@ public class PersonRepositoryTest {
 
     @Test
     void testUpdatePerson_Ok() {
-        //GIVEN
-
-        // Mock pour renvoyer List<Person> persons
-
         Person personTest = new Person();
-        personTest.setFirstName("Swawna");
-        personTest.setLastName("Stelzer");        //WHEN
+        personTest.setFirstName("Shawna");
+        personTest.setLastName("Stelzer");
         personRepository.updatePerson(personTest);
+        //WHEN
         //THEN
-        //assertion sur persons
+        List<Person> personsTested = personRepository.getPersons();
+        assertThat(personsTested)
+                .contains(personTest);
     }
 
     @Test
-    void testUpdatePerson_Cancelled() {
-        //GIVEN
-
-        // Mock pour renvoyer List<Person> persons
-
+    void testUpdatePerson_Person_Not_In_Database() {
         Person personTest = new Person();
-        personTest.setFirstName("Swawna");
-        personTest.setLastName("Stelzer");
+        personTest.setFirstName("Wrong firstName");
+        personTest.setLastName("Wrong lastName");
         //WHEN
-        personRepository.updatePerson(personTest);
         //THEN
         assertThatThrownBy(() -> {
-            personRepository.addPerson(personTest);
+            personRepository.updatePerson(personTest);
         }).isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Update cancelled : person can't be found in the database");
     }
@@ -95,33 +80,36 @@ public class PersonRepositoryTest {
     @Test
     void testDeletePerson_Ok() {
         //GIVEN
-
-        // Mock pour renvoyer List<Person> persons
-
-        Person personTest = new Person();
-        personTest.setFirstName("Swawna");
-        personTest.setLastName("Stelzer");
+        String personTestFirstName = ("Shawna");
+        String personTestLastName = ("Stelzer");
         //WHEN
-        personRepository.deletePerson(personTest);
+        personRepository.deletePerson(personTestFirstName, personTestLastName);
         //THEN
+        List<Person> personsTested = personRepository.getPersons();
+        Person personToDeleted = new Person();
 
+        personToDeleted.setFirstName("Shawna");
+        personToDeleted.setLastName("Stelzer");
+        personToDeleted.setAddress("947 E. Rose Dr");
+        personToDeleted.setCity("Culver");
+        personToDeleted.setZip("97451");
+        personToDeleted.setPhone("841-874-7784");
+        personToDeleted.setEmail("ssanw@email.com");
+
+        assertThat(personsTested)
+                .doesNotContain(personToDeleted);
     }
 
     @Test
-    void testDeletePerson_Cancelled() {
+    void testDeletePerson_Person_Not_In_Database() {
         //GIVEN
-
-        // Mock pour renvoyer List<Person> persons
-
-        Person personTest = new Person();
-        personTest.setFirstName("Swawna");
-        personTest.setLastName("Stelzer");
+        String personTestFirstName = ("Wrong firstName");
+        String personTestLastName = ("Wrong lastName");
         //WHEN
-        personRepository.addPerson(personTest);
         //THEN
         assertThatThrownBy(() -> {
-            personRepository.addPerson(personTest);
+            personRepository.deletePerson(personTestFirstName, personTestLastName);
         }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Deletion canceled : person is not listed in the database");
+                .hasMessageContaining("Deletion cancelled : person is not listed in the database");
     }
 }
