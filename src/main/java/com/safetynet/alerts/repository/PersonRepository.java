@@ -41,12 +41,12 @@ public class PersonRepository {
             String personToAddFirstName = personToAdd.getFirstName();
             String personToAddLastName = personToAdd.getLastName();
 
-            if (personToAddFirstName.equals(personJsonFirstName) && personToAddLastName.equals(personJsonLastName)) {
+            if (personToAddFirstName.equals(personJsonFirstName) && personToAddLastName.equals(personJsonLastName)) {   //exception levée dès que name et surname
                 throw new IllegalArgumentException("Saving cancelled : person is already listed in the database");
-            } else {
-                persons.add(personToAdd);
             }
         }
+        persons.add(personToAdd);   // Ajout en dehors du while pour ajouter persoToAdd après iteration sur toute la liste et si pas d'exception levée
+
     }
 
     public void updatePerson(Person personToUpdate) {

@@ -5,6 +5,7 @@ import com.safetynet.alerts.repository.PersonRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.List;
 
@@ -12,6 +13,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)    //réinitialiser toutes les instances du contexte entre chaque test.
+
 public class PersonRepositoryTest {
     @Autowired
     private PersonRepository personRepository;
@@ -34,7 +37,10 @@ public class PersonRepositoryTest {
         //THEN
         List<Person> personsTested = personRepository.getPersons();
         assertThat(personsTested)
+                .usingRecursiveFieldByFieldElementComparatorOnFields("firstName", "lastName")
                 .contains(personTest);
+//        assertThat(personsTested) //Pb : assertion sur tous les fields de l'objet pour voir si égalité
+//                .contains(personTest);
     }
 
     @Test
@@ -43,7 +49,6 @@ public class PersonRepositoryTest {
         personTest.setFirstName("Shawna");
         personTest.setLastName("Stelzer");
         //WHEN
-        personRepository.addPerson(personTest);
         //THEN
         assertThatThrownBy(() -> {
             personRepository.addPerson(personTest);
@@ -90,14 +95,11 @@ public class PersonRepositoryTest {
 
         personToDeleted.setFirstName("Shawna");
         personToDeleted.setLastName("Stelzer");
-        personToDeleted.setAddress("947 E. Rose Dr");
-        personToDeleted.setCity("Culver");
-        personToDeleted.setZip("97451");
-        personToDeleted.setPhone("841-874-7784");
-        personToDeleted.setEmail("ssanw@email.com");
 
         assertThat(personsTested)
+                .usingRecursiveFieldByFieldElementComparatorOnFields("firstName", "lastName")
                 .doesNotContain(personToDeleted);
+
     }
 
     @Test
