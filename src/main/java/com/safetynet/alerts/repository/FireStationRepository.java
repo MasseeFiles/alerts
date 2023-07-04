@@ -19,88 +19,59 @@ public class FireStationRepository {
     public FireStationRepository(Converter converter) { //constructeur de la classe avec parametre converter
         this.converter = converter;
     }
+
     @PostConstruct
     public void buildFireStations() {
         JavaObjectFromJson data = converter.convertJsonToJavaObject();
         List<FireStation> listFireStationJson = data.getFireStations();
         fireStations.addAll(listFireStationJson);
     }
+
     public List<FireStation> getFireStations() {  //methode a utiliser pour recuperer persons dans json
         return fireStations;
     }
 
-    public void addFireStation(Integer stationNumberToUpdate, String address) {
+    public void addFireStation(FireStation fireStationToAdd) {
         Iterator<FireStation> iteratorFireStation = fireStations.iterator(); //methode addIf() n'existe pas
 
         while (iteratorFireStation.hasNext()) {
             FireStation fireStationJson = iteratorFireStation.next();
-//iteration sur
-            //valeur de la key
-            //valeur de la value
-            Integer key = 2;    //A chercher
-            String value = new String();
+            int fireStationJsonNumber = fireStationJson.getStation();
+            String fireStationJsonAddress = fireStationJson.getAddress();
 
-            if (stationNumberToUpdate.equals(key) && address.equals(value)) {
+            int stationNumberToAdd = fireStationToAdd.getStation();
+            String fireStationJsonToAdd = fireStationToAdd.getAddress();
+
+            if (stationNumberToAdd == fireStationJsonNumber && fireStationJsonToAdd.equals(fireStationJsonAddress)) {
                 throw new IllegalArgumentException("Saving cancelled : this station number is already linked to this address");
-            } else {
-                FireStation fireStationToAdd = new FireStation();
-                fireStationToAdd.setStation(stationNumberToUpdate);
-                fireStationToAdd.setAddress(address);
-
-                fireStations.add(fireStationToAdd);
             }
         }
+        fireStations.add(fireStationToAdd);
+
+    }
+//javadoc
+
+    /**
+     * firestation update s'appilque à la premiere occurence avec adresse correspondante
+     */
+    public void updateFireStation(FireStation fireStationToUpdate) {  //mettre à jour le numéro de la caserne de pompiers d'une adresse
+        for (FireStation fireStation : fireStations) {
+            if (fireStation.getAddress().equals(fireStationToUpdate.getAddress())) {
+                fireStation.setStation(fireStationToUpdate.getStation());
+                return;
+            }
+        }
+        throw new IllegalArgumentException("Update cancelled : this address is not covered in the database");  // Le return permet de sortir de la boucle donc de ne pas lancer l'exception
     }
 
-    public void updateFireStation(Integer stationNumberToUpdate, String address) {  //mettre à jour le numéro de la caserne de pompiers d'une adresse
-//NB : une caserne peut couvrir plusieus adresses - pas de verification
-        FireStation fireStationToUpdate = new FireStation();
-        fireStationToUpdate.setStation(stationNumberToUpdate);
-        fireStationToUpdate.setAddress(address);
-
-        fireStations.add(fireStationToUpdate);
+    public void deleteFireStation(FireStation fireStationToDelete) {    //supprime toutes les entrées concernant un # de caserne ou une adresse
+        boolean wasDeleted = fireStations.removeIf(fireStation -> {
+            return
+                    (fireStationToDelete.getAddress() != null && fireStation.getAddress().equals(fireStationToDelete.getAddress())) ||  //destruction par les adresses des fireStation de la liste (OR)
+                    (fireStationToDelete.getStation() != null && fireStation.getStation().equals(fireStationToDelete.getStation()));    //destruction par les numeros des fireStation de la liste
+        });
+        if (wasDeleted == false) {
+            throw new IllegalArgumentException("Deletion cancelled : this fire station / linked address is not listed in the database");
+        }
     }
-
-//        Iterator<FireStation> iteratorFireStation = fireStations.iterator();
-//
-//        while (iteratorFireStation.hasNext()) {
-//            FireStation fireStationJson = iteratorFireStation.next();
-//            int stationNumberJson = fireStationJson.getStation();
-//            String addressJson = fireStationJson.getAddress();
-
-
-//            for (Map.Entry<Integer, String> entry : mapRequest.entrySet()) {
-//                Integer key = entry.getKey();
-//                String value = entry.getValue();
-//                int keyInt = key.intValue();
-//                if (keyInt == stationNumberJson && value == addressJson) {
-//
-//                }
-//
-//
-//                boolean wasUpdated = fireStations.removeIf(FireStation -> fireStationToUpdate.equals(fireStationJson));  // true si person existe deja dans le fichier json
-//
-////            if (wasUpdated == true) {
-//                FireStation fireStationToUpdate = new FireStation();
-//                fireStationToUpdate.setStation(stationNumberToUpdate);
-//                fireStationToUpdate.setAddress(address);
-//
-//                fireStations.add(fireStationToUpdate);
-//            } else {
-//                throw new IllegalArgumentException("Update cancelled : person can't be found in the database");
-//            }
-//        }
-
-//    public void deleteFireStation(Integer stationNumberToUpdate, String address) {
-//        FireStation fireStationToDelete = new FireStation();
-//        fireStationToDelete.setStation(stationNumberToUpdate);
-//        fireStationToDelete.setAddress(address);
-//
-//        fireStations.remove(fireStationToDelete);
-//        boolean wasRemoved = fireStations.removeIf(fireStation -> KEY VALUE IDENTIQUE);  // true si person existe deja dans le fichier json
-//
-//        if (wasRemoved == false) {
-//            throw new IllegalArgumentException("Deletion cancelled : person is not listed in the database");
-//        }
-//    }
 }

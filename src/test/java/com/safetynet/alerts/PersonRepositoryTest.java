@@ -21,6 +21,7 @@ public class PersonRepositoryTest {
 
     @Test
     void testGetPersons() {
+        //GIVEN
         //WHEN
         List<Person> listPersonTested = personRepository.getPersons();
         //THEN
@@ -29,6 +30,7 @@ public class PersonRepositoryTest {
 
     @Test
     void testAddPerson_Ok() {
+        //GIVEN
         Person personTest = new Person();
         personTest.setFirstName("FirstNameTest");
         personTest.setLastName("LastNameTest");
@@ -45,6 +47,7 @@ public class PersonRepositoryTest {
 
     @Test
     void testAddPerson_Already_Exist() {
+        //GIVEN
         Person personTest = new Person();
         personTest.setFirstName("Shawna");
         personTest.setLastName("Stelzer");
@@ -58,11 +61,12 @@ public class PersonRepositoryTest {
 
     @Test
     void testUpdatePerson_Ok() {
+        //GIVEN
         Person personTest = new Person();
         personTest.setFirstName("Shawna");
         personTest.setLastName("Stelzer");
-        personRepository.updatePerson(personTest);
         //WHEN
+        personRepository.updatePerson(personTest);
         //THEN
         List<Person> personsTested = personRepository.getPersons();
         assertThat(personsTested)
@@ -71,6 +75,7 @@ public class PersonRepositoryTest {
 
     @Test
     void testUpdatePerson_Person_Not_In_Database() {
+        //GIVEN
         Person personTest = new Person();
         personTest.setFirstName("Wrong firstName");
         personTest.setLastName("Wrong lastName");
@@ -79,7 +84,7 @@ public class PersonRepositoryTest {
         assertThatThrownBy(() -> {
             personRepository.updatePerson(personTest);
         }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Update cancelled : person can't be found in the database");
+                .hasMessageContaining("Update cancelled : person can't be found in the database");  //voir si modif code - message peut rapidement changer
     }
 
     @Test

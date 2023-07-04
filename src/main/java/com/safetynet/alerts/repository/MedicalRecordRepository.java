@@ -37,16 +37,15 @@ public class MedicalRecordRepository {
         while (iteratorMedicalRecord.hasNext()) {
             MedicalRecord medicalRecordJson = iteratorMedicalRecord.next();
             String medicalRecordJsonFirstName = medicalRecordJson.getFirstName();
-            String medicalRecordJsonnLastName = medicalRecordJson.getLastName();
+            String medicalRecordJsonLastName = medicalRecordJson.getLastName();
             String medicalRecordToAddFirstName = medicalRecordToAdd.getFirstName();
             String medicalRecordToAddLastName = medicalRecordToAdd.getLastName();
 
-            if (medicalRecordToAddFirstName.equals(medicalRecordJsonFirstName) && medicalRecordToAddLastName.equals(medicalRecordJsonnLastName)) {
+            if (medicalRecordToAddFirstName.equals(medicalRecordJsonFirstName) && medicalRecordToAddLastName.equals(medicalRecordJsonLastName)) {
                 throw new IllegalArgumentException("Saving cancelled : this medical record is already listed in the database");
-            } else {
-                medicalRecords.add(medicalRecordToAdd);
             }
         }
+        medicalRecords.add(medicalRecordToAdd);
     }
 
     public void updateMedicalRecord(MedicalRecord medicalRecordToUpdate) {
