@@ -1,7 +1,7 @@
 package com.safetynet.alerts;
 
 import com.safetynet.alerts.model.AnswerEndPoint6;
-import com.safetynet.alerts.service.EndPoint6Service;
+import com.safetynet.alerts.service.PersonInfoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,18 +9,17 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class EndPoint6ServiceTest {
+public class PersonInfoServiceTest {
     @Autowired
-    private EndPoint6Service endPoint6Service;
+    private PersonInfoService personInfoService;
 
     @Test
     void testGetPersonFromName_Ok() {
         //GIVEN
         //WHEN
-        List<AnswerEndPoint6> listAnswerEndPoint6 = endPoint6Service.getPersonFromName("Shawna", "Stelzer");
+        List<AnswerEndPoint6> listAnswerEndPoint6 = personInfoService.getPersonFromName("Shawna", "Stelzer");
         //THEN
         assertThat(listAnswerEndPoint6).isNotEmpty();
 
@@ -37,7 +36,7 @@ public class EndPoint6ServiceTest {
     void TestGetPersonFromName_Wrong_Name() {
         //GIVEN
         //WHEN
-        List<AnswerEndPoint6> listAnswerEndPoint6 = endPoint6Service.getPersonFromName("wrongFirstName", "wrongLastName");
+        List<AnswerEndPoint6> listAnswerEndPoint6 = personInfoService.getPersonFromName("wrongFirstName", "wrongLastName");
         //THEN
         assertThat(listAnswerEndPoint6).isEmpty();
     }

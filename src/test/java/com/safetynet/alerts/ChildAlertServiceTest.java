@@ -1,8 +1,8 @@
 package com.safetynet.alerts;
 
 import com.safetynet.alerts.model.Person;
-import com.safetynet.alerts.model.PersonEndPoint2;
-import com.safetynet.alerts.service.EndPoint2Service;
+import com.safetynet.alerts.model.Child;
+import com.safetynet.alerts.service.ChildAlertService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,18 +13,18 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class EndPoint2ServiceTest {
+public class ChildAlertServiceTest {
     @Autowired
-    private EndPoint2Service endPoint2Service;
+    private ChildAlertService childAlertService;
 
     @Test
     void testGetAnswer_Ok() {
         //GIVEN
         String address = ("1509 Culver St");
         //WHEN
-        List<PersonEndPoint2> listPersonEndPoint2Tested = endPoint2Service.getAnswer(address);
+        List<Child> listChildTested = childAlertService.getAnswer(address);
         //THEN
-        assertThat(listPersonEndPoint2Tested)
+        assertThat(listChildTested)
                 .isNotEmpty()
                 .hasSize(2);
     }
@@ -34,9 +34,9 @@ public class EndPoint2ServiceTest {
         //GIVEN
         String address = ("Wrong Address");
         //WHEN
-        List<PersonEndPoint2> listPersonEndPoint2Tested = endPoint2Service.getAnswer(address);
+        List<Child> listChildTested = childAlertService.getAnswer(address);
         //THEN
-        assertThat(listPersonEndPoint2Tested).isEmpty();
+        assertThat(listChildTested).isEmpty();
     }
 
     @Test
@@ -53,7 +53,7 @@ public class EndPoint2ServiceTest {
         personExpected.setPhone("841-874-6513");
         personExpected.setEmail("drk@email.com");
         //WHEN
-        List<Person> listPersonTested = endPoint2Service.getPersonFromAddress(address);
+        List<Person> listPersonTested = childAlertService.getPersonFromAddress(address);
         //THEN
         assertThat(listPersonTested)
                 .isNotEmpty()
@@ -65,7 +65,7 @@ public class EndPoint2ServiceTest {
         //GIVEN
         String address = ("Wrong Address");
         //WHEN
-        List<Person> listPersonTested = endPoint2Service.getPersonFromAddress(address);
+        List<Person> listPersonTested = childAlertService.getPersonFromAddress(address);
         //THEN
         assertThat(listPersonTested).isEmpty();
     }
@@ -86,7 +86,7 @@ public class EndPoint2ServiceTest {
         listTest.add(child);
 
         //WHEN
-        List<PersonEndPoint2> listPersonTested = endPoint2Service.getChildren(listTest);
+        List<Child> listPersonTested = childAlertService.getChildren(listTest);
         //THEN
         assertThat(listPersonTested).hasSize(1);
     }
@@ -102,7 +102,7 @@ public class EndPoint2ServiceTest {
         listTest.add(person1);
 
         //WHEN
-        List<PersonEndPoint2> listPersonTested = endPoint2Service.getChildren(listTest);
+        List<Child> listPersonTested = childAlertService.getChildren(listTest);
         //THEN
         assertThat(listPersonTested).isEmpty();
     }
@@ -117,7 +117,7 @@ public class EndPoint2ServiceTest {
         person1.setLastName("WrongLastName");
         listTest.add(person1);
         //WHEN
-        List<PersonEndPoint2> listPersonTested = endPoint2Service.getChildren(listTest);
+        List<Child> listPersonTested = childAlertService.getChildren(listTest);
         //THEN
         assertThat(listPersonTested).isEmpty();
     }
@@ -125,9 +125,9 @@ public class EndPoint2ServiceTest {
     @Test
     void testGetListChildEndPoint2_OK() {
         //GIVEN
-        List<PersonEndPoint2> requestListChild = new ArrayList<PersonEndPoint2>();  //liste des enfants
+        List<Child> requestListChild = new ArrayList<Child>();  //liste des enfants
 
-        PersonEndPoint2 child1 = new PersonEndPoint2();
+        Child child1 = new Child();
         child1.setFirstName("Zach");
         child1.setLastName("Zemicks");
         requestListChild.add(child1);
@@ -150,7 +150,7 @@ public class EndPoint2ServiceTest {
         requestListPersonLivingHere.add(personTest3);
 
         //WHEN
-        List<PersonEndPoint2> listTested = endPoint2Service.getListChildEndPoint2(requestListChild, requestListPersonLivingHere);
+        List<Child> listTested = childAlertService.getListChildEndPoint2(requestListChild, requestListPersonLivingHere);
         //THEN
         assertThat(listTested)
                 .isNotEmpty()
@@ -161,9 +161,9 @@ public class EndPoint2ServiceTest {
     @Test
     void testGetListChildEndPoint2_No_Matchings() {
         //GIVEN
-        List<PersonEndPoint2> requestListChild = new ArrayList<PersonEndPoint2>();  //liste des enfants
+        List<Child> requestListChild = new ArrayList<Child>();  //liste des enfants
 
-        PersonEndPoint2 child1 = new PersonEndPoint2();
+        Child child1 = new Child();
         child1.setFirstName("WrongFirstName");
         child1.setLastName("WrongLastName");
         requestListChild.add(child1);
@@ -186,12 +186,12 @@ public class EndPoint2ServiceTest {
         requestListPersonLivingHere.add(personTest3);
 
         //WHEN
-        List<PersonEndPoint2> listTested = endPoint2Service.getListChildEndPoint2(requestListChild, requestListPersonLivingHere);
+        List<Child> listTested = childAlertService.getListChildEndPoint2(requestListChild, requestListPersonLivingHere);
         //THEN
         assertThat(listTested).hasSize(1);
 
         assertThat(listTested)
-                .extracting(PersonEndPoint2::getLastName)
+                .extracting(Child::getLastName)
                 .contains("WrongLastName");
     }
 
@@ -202,7 +202,7 @@ public class EndPoint2ServiceTest {
         adult.setFirstName("Reginold");
         adult.setLastName("Walker");
         //WHEN
-        boolean booleanTested = endPoint2Service.defineChildrenToBeRemoved(adult);
+        boolean booleanTested = childAlertService.defineChildrenToBeRemoved(adult);
         //THEN
         assertThat(booleanTested).isFalse();
     }
@@ -214,7 +214,7 @@ public class EndPoint2ServiceTest {
         child.setFirstName("Roger");
         child.setLastName("Boyd");
         //WHEN
-        boolean booleanTested = endPoint2Service.defineChildrenToBeRemoved(child);
+        boolean booleanTested = childAlertService.defineChildrenToBeRemoved(child);
         //THEN
         assertThat(booleanTested).isTrue();
     }

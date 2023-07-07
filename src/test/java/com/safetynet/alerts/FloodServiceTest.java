@@ -1,7 +1,7 @@
 package com.safetynet.alerts;
 
 import com.safetynet.alerts.model.HouseHold;
-import com.safetynet.alerts.service.EndPoint5Service;
+import com.safetynet.alerts.service.FloodService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,16 +12,16 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-public class EndPoint5ServiceTest {
+public class FloodServiceTest {
     @Autowired
-    private EndPoint5Service endPoint5Service;
+    private FloodService floodService;
 
     @Test
     void testGetAddressCovered_Ok() {
         //GIVEN
         int stationNumberTest = 1;
         //WHEN
-        List<String> listAddressCoveredTested = endPoint5Service.getAddressCovered(stationNumberTest);
+        List<String> listAddressCoveredTested = floodService.getAddressCovered(stationNumberTest);
         //THEN
         assertThat(listAddressCoveredTested)
                 .isNotEmpty()
@@ -36,7 +36,7 @@ public class EndPoint5ServiceTest {
         //GIVEN
         int stationNumberTest = -1;
         //WHEN
-        List<String> listAddressCoveredTested = endPoint5Service.getAddressCovered(stationNumberTest);
+        List<String> listAddressCoveredTested = floodService.getAddressCovered(stationNumberTest);
         //THEN
         assertThat(listAddressCoveredTested).isEmpty();
     }
@@ -48,7 +48,7 @@ public class EndPoint5ServiceTest {
         listAddressCovered.add("1509 Culver St");
         listAddressCovered.add("834 Binoc Ave");
         //WHEN
-        List<HouseHold> listHouseHoldTested = endPoint5Service.getListHouseHold(listAddressCovered);
+        List<HouseHold> listHouseHoldTested = floodService.getListHouseHold(listAddressCovered);
         //THEN
         assertThat(listHouseHoldTested).hasSize(2);
     }
@@ -59,7 +59,7 @@ public class EndPoint5ServiceTest {
         List<String> listTest = new ArrayList<>();
         listTest.add("Wrong Address");
         //WHEN
-        List<HouseHold> listHouseHoldTested = endPoint5Service.getListHouseHold(listTest);
+        List<HouseHold> listHouseHoldTested = floodService.getListHouseHold(listTest);
         //THEN
         assertThat(listHouseHoldTested).isEmpty();
     }

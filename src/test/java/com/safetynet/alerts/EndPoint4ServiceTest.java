@@ -1,6 +1,6 @@
 package com.safetynet.alerts;
 
-import com.safetynet.alerts.model.PersonEndPoint4;
+import com.safetynet.alerts.model.PersonWithMedicalRecords;
 import com.safetynet.alerts.service.EndPoint4Service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +67,7 @@ public class EndPoint4ServiceTest {
         //GIVEN
         String requestAddress = ("947 E. Rose Dr");
         //WHEN
-        List<PersonEndPoint4> listPersonTested = endPoint4Service.getListPerson(requestAddress);
+        List<PersonWithMedicalRecords> listPersonTested = endPoint4Service.getListPerson(requestAddress);
         //THEN
         assertThat(listPersonTested)
                 .hasSize(3);
@@ -78,7 +78,7 @@ public class EndPoint4ServiceTest {
         //GIVEN
         String requestAddress = ("Wrong Address");
         //WHEN
-        List<PersonEndPoint4> listPersonTested = endPoint4Service.getListPerson(requestAddress);
+        List<PersonWithMedicalRecords> listPersonTested = endPoint4Service.getListPerson(requestAddress);
         //THEN
         assertThat(listPersonTested).isEmpty();
     }

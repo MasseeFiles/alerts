@@ -1,6 +1,6 @@
 package com.safetynet.alerts.controller;
 
-import com.safetynet.alerts.service.EndPoint7Service;
+import com.safetynet.alerts.service.CommunityEmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController //Bean SpringBoot
-public class EndPoint7Controller {
-    private static final Logger LOGGER = LoggerFactory.getLogger(EndPoint7Controller.class);
+public class CommunityEmailController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommunityEmailController.class);
     @Autowired
-    private EndPoint7Service endPoint7Service;
+    private CommunityEmailService communityEmailService;
     @GetMapping("/communityEmail")
-    public List<String> getAnswerEndPoint7(@RequestParam("city") String city) {
+    public List<String> getCommunityEmail(@RequestParam("city") String city) {
         LOGGER.info("Requete pour communityEmail - ville demandée : " + city);
 
-        List<String> answer = endPoint7Service.getAllEmails(city);
+        List<String> answer = communityEmailService.getAllEmails(city);
 
-        LOGGER.info("Reponse pour communityEmail - ville demandée : " + city + " liste des mails des habitants : " + answer);
+        LOGGER.info("Reponse pour communityEmail - ville demandée : " + city + " / liste des mails des habitants : " + answer);
 
         return answer;
     }

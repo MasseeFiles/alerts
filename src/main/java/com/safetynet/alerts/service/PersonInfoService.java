@@ -10,10 +10,10 @@ import java.util.Iterator;
 import java.util.List;
 
 @Service
-public class EndPoint6Service {
+public class PersonInfoService {
     private final Converter converter;
     @Autowired
-    public EndPoint6Service(Converter converter) {
+    public PersonInfoService(Converter converter) {
         this.converter = converter;
     }
     public List<AnswerEndPoint6> getPersonFromName(String requestFirstName, String requestLastName) {

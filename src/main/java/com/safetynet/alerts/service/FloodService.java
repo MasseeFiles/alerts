@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class EndPoint5Service {
+public class FloodService {
     private final Converter converter;
 
     @Autowired
-    public EndPoint5Service(Converter converter) {
+    public FloodService(Converter converter) {
         this.converter = converter;
     }
 
@@ -40,7 +40,7 @@ public class EndPoint5Service {
     }
 
     public List<HouseHold> getListHouseHold(List<String> addressesCovered) {
-        Map<String, List<PersonEndPoint5>> map = new HashMap<>();   //A VOIR
+        Map<String, List<PersonWithMedicalRecords>> map = new HashMap<>();
 
         JavaObjectFromJson data = converter.convertJsonToJavaObject();
         List<Person> listPersonJson = data.getPersons();
@@ -54,27 +54,27 @@ public class EndPoint5Service {
                 String singleAddressCovered = iteratorAddress.next();
 
                 if (singleAddressCovered.equals(addressPerson)) {
-                    PersonEndPoint5 personEndPoint5 = buildPersonEndPoint5(data, person);
-                    addToMap(map , personEndPoint5, addressPerson);
+                    PersonWithMedicalRecords personWithMedicalRecords = buildPersonWithMedicalRecords(data, person);
+                    addToMap(map , personWithMedicalRecords, addressPerson);
                 }
             }
         }
         return buildHouseholds(map);
     }
 
-    private void addToMap(Map<String, List<PersonEndPoint5>> map, PersonEndPoint5 personEndPoint5, String addressPerson) {
+    private void addToMap(Map<String, List<PersonWithMedicalRecords>> map, PersonWithMedicalRecords personWithMedicalRecords, String addressPerson) {
         if (map.containsKey(addressPerson)) {
-            map.get(addressPerson).add(personEndPoint5); //retourne liste)
+            map.get(addressPerson).add(personWithMedicalRecords);
         } else {
-            List<PersonEndPoint5> listMap = new ArrayList<>();
-            listMap.add(personEndPoint5);
+            List<PersonWithMedicalRecords> listMap = new ArrayList<>();
+            listMap.add(personWithMedicalRecords);
 
             map.put(addressPerson, listMap);
         }
     }
 
-    private static List<HouseHold> buildHouseholds(Map<String, List<PersonEndPoint5>> map) {
-        List<PersonEndPoint5> houseHoldPersons;
+    private static List<HouseHold> buildHouseholds(Map<String, List<PersonWithMedicalRecords>> map) {
+        List<PersonWithMedicalRecords> houseHoldPersons;
         List<HouseHold> listHouseHold = new ArrayList<>();
         Set<String> addresses = map.keySet();
         for (String address : addresses) {   //set de toutes les clefs de la map
@@ -88,11 +88,11 @@ public class EndPoint5Service {
         return listHouseHold;
     }
 
-    private static PersonEndPoint5 buildPersonEndPoint5(JavaObjectFromJson data, Person person) {
-        PersonEndPoint5 personEndPoint5 = new PersonEndPoint5();
-        personEndPoint5.setFirstName(person.getFirstName());
-        personEndPoint5.setLastName(person.getLastName());
-        personEndPoint5.setPhone(person.getPhone());
+    private static PersonWithMedicalRecords buildPersonWithMedicalRecords(JavaObjectFromJson data, Person person) {
+        PersonWithMedicalRecords personWithMedicalRecords = new PersonWithMedicalRecords();
+        personWithMedicalRecords.setFirstName(person.getFirstName());
+        personWithMedicalRecords.setLastName(person.getLastName());
+        personWithMedicalRecords.setPhone(person.getPhone());
 
         List<MedicalRecord> listMedicalRecord = data.getMedicalRecords();
         Iterator<MedicalRecord> iteratorMedicalRecord = listMedicalRecord.iterator();
@@ -101,13 +101,13 @@ public class EndPoint5Service {
             String firstNameMedicalRecord = medicalRecord.getFirstName();
             String lastNameMedicalRecord = medicalRecord.getLastName();
 
-            if (personEndPoint5.getFirstName().equals(firstNameMedicalRecord) && personEndPoint5.getLastName().equals(lastNameMedicalRecord)) {
-                personEndPoint5.setMedications(medicalRecord.getMedications());
-                personEndPoint5.setAllergies(medicalRecord.getAllergies());
-                personEndPoint5.setAge(medicalRecord.getAgeFromBirthDate(medicalRecord.getBirthdate()));
+            if (personWithMedicalRecords.getFirstName().equals(firstNameMedicalRecord) && personWithMedicalRecords.getLastName().equals(lastNameMedicalRecord)) {
+                personWithMedicalRecords.setMedications(medicalRecord.getMedications());
+                personWithMedicalRecords.setAllergies(medicalRecord.getAllergies());
+                personWithMedicalRecords.setAge(medicalRecord.getAgeFromBirthDate(medicalRecord.getBirthdate()));
             }
         }
-        return personEndPoint5;
+        return personWithMedicalRecords;
     }
 }
 

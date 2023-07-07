@@ -19,7 +19,7 @@ public class EndPoint4Service {
     public AnswerEndPoint4 getAnswer(String requestAddress) {
         AnswerEndPoint4 answerEndPoint4 = new AnswerEndPoint4();
         List<Integer> listStationNumber = getStationNumber(requestAddress);
-        List<PersonEndPoint4> listPerson = getListPerson(requestAddress);
+        List<PersonWithMedicalRecords> listPerson = getListPerson(requestAddress);
         answerEndPoint4.setStationNumber(listStationNumber);
         answerEndPoint4.setListPerson(listPerson);
         return answerEndPoint4;
@@ -37,21 +37,16 @@ public class EndPoint4Service {
 
             if (requestAddress.equals(singleAddressCovered)) {
                 int number = fireStation.getStation();
-
-
-                //iterator pour ne pas avoir de doublons dans les numeros de station - utilisation d'un hashset ???
-
-
                 stationNumber.add(number);
             }
         }
         return stationNumber;
     }
 
-    public List<PersonEndPoint4> getListPerson(String requestAddress){
+    public List<PersonWithMedicalRecords> getListPerson(String requestAddress){
         JavaObjectFromJson data = converter.convertJsonToJavaObject();
         List<Person> savedJSonPersons = data.getPersons();
-        List<PersonEndPoint4> listMatchingPerson = new ArrayList<PersonEndPoint4>();
+        List<PersonWithMedicalRecords> listMatchingPerson = new ArrayList<PersonWithMedicalRecords>();
         Iterator<Person> iteratorPerson = savedJSonPersons.iterator();
 
         while (iteratorPerson.hasNext()) {
@@ -59,20 +54,20 @@ public class EndPoint4Service {
             String addressPerson = person.getAddress();
 
             if (addressPerson.equals(requestAddress)) {
-                PersonEndPoint4 personEndPoint4 = new PersonEndPoint4();
-                personEndPoint4.setFirstName(person.getFirstName());
-                personEndPoint4.setLastName(person.getLastName());
-                personEndPoint4.setPhone(person.getPhone());
-                listMatchingPerson.add(personEndPoint4);
+                PersonWithMedicalRecords personWithMedicalRecords = new PersonWithMedicalRecords();
+                personWithMedicalRecords.setFirstName(person.getFirstName());
+                personWithMedicalRecords.setLastName(person.getLastName());
+                personWithMedicalRecords.setPhone(person.getPhone());
+                listMatchingPerson.add(personWithMedicalRecords);
             }
 
-            Iterator<PersonEndPoint4> iteratorPersonEndPoint4 = listMatchingPerson.iterator();
+            Iterator<PersonWithMedicalRecords> iteratorPersonEndPoint4 = listMatchingPerson.iterator();
             List<MedicalRecord> savedJsonMedicalRecord = data.getMedicalRecords();
 
             while(iteratorPersonEndPoint4.hasNext()) {
-                PersonEndPoint4 personEndPoint4 = iteratorPersonEndPoint4.next();
-                String firstName = personEndPoint4.getFirstName();
-                String lastName = personEndPoint4.getLastName();
+                PersonWithMedicalRecords personWithMedicalRecords = iteratorPersonEndPoint4.next();
+                String firstName = personWithMedicalRecords.getFirstName();
+                String lastName = personWithMedicalRecords.getLastName();
 
                 Iterator<MedicalRecord> iteratorMedicalRecord = savedJsonMedicalRecord.iterator();
 
@@ -84,9 +79,9 @@ public class EndPoint4Service {
                             if (firstName.equals(firstNameJson) && lastName.equals(lastNameJson)) {
                                 String birthDate = medicalRecord.getBirthdate();
                                 int age = medicalRecord.getAgeFromBirthDate(birthDate);
-                                personEndPoint4.setAge(age);
-                                personEndPoint4.setMedications(medicalRecord.getMedications());
-                                personEndPoint4.setAllergies(medicalRecord.getAllergies());
+                                personWithMedicalRecords.setAge(age);
+                                personWithMedicalRecords.setMedications(medicalRecord.getMedications());
+                                personWithMedicalRecords.setAllergies(medicalRecord.getAllergies());
                             }
                 }
             }

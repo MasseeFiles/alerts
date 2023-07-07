@@ -52,7 +52,7 @@ public class FireStationRepository {
 //javadoc
 
     /**
-     * firestation update s'appilque à la premiere occurence avec adresse correspondante
+     * firestation update s'applique à la premiere occurence avec adresse correspondante
      */
     public void updateFireStation(FireStation fireStationToUpdate) {  //mettre à jour le numéro de la caserne de pompiers d'une adresse
         for (FireStation fireStation : fireStations) {

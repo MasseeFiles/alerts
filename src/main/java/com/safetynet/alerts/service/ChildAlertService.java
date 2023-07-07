@@ -4,23 +4,23 @@ import com.safetynet.alerts.model.*;
 import com.safetynet.alerts.repository.Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.safetynet.alerts.model.PersonEndPoint2;
+import com.safetynet.alerts.model.Child;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 @Service
-public class EndPoint2Service {
+public class ChildAlertService {
     private final Converter converter;
     @Autowired
-    public EndPoint2Service(Converter converter) {
+    public ChildAlertService(Converter converter) {
         this.converter = converter;
     }
 
-    public List<PersonEndPoint2> getAnswer(String requestAddress) {
+    public List<Child> getAnswer(String requestAddress) {
         List<Person> listPersonLivingHere = getPersonFromAddress(requestAddress);
-        List<PersonEndPoint2> listChild = getChildren(listPersonLivingHere);
+        List<Child> listChild = getChildren(listPersonLivingHere);
         return getListChildEndPoint2(listChild, listPersonLivingHere);
     }
 
@@ -48,9 +48,9 @@ public class EndPoint2Service {
         return listPersonLivingHere;
     }
 
-    public List<PersonEndPoint2> getChildren(List<Person> listPersonLivingHere) {   //definit les enfants habitant à l'adresse donnée
+    public List<Child> getChildren(List<Person> listPersonLivingHere) {   //definit les enfants habitant à l'adresse donnée
         JavaObjectFromJson data = converter.convertJsonToJavaObject();
-        List<PersonEndPoint2> listChild = new ArrayList<PersonEndPoint2>(); //valeur de retour
+        List<Child> listChild = new ArrayList<Child>(); //valeur de retour
         Iterator<Person> iteratorPerson1 = listPersonLivingHere.iterator();
 
         while (iteratorPerson1.hasNext()) {
@@ -70,7 +70,7 @@ public class EndPoint2Service {
                     int age = medicalRecord.getAgeFromBirthDate(birthdate);
 
                     if (age < 18) {
-                        PersonEndPoint2 child = new PersonEndPoint2();
+                        Child child = new Child();
                         child.setFirstName(person.getFirstName());
                         child.setLastName(person.getLastName());
                         child.setAge(age);
@@ -82,12 +82,12 @@ public class EndPoint2Service {
         return listChild;
     }
 
-    public List<PersonEndPoint2> getListChildEndPoint2(List<PersonEndPoint2> listChild, List<Person> listPersonLivingHere) {
-        List<PersonEndPoint2> childrenLivingHere = listChild;
+    public List<Child> getListChildEndPoint2(List<Child> listChild, List<Person> listPersonLivingHere) {
+        List<Child> childrenLivingHere = listChild;
         List<Person> houseHold = listPersonLivingHere;
-        Iterator<PersonEndPoint2> iteratorListChild = listChild.iterator();
+        Iterator<Child> iteratorListChild = listChild.iterator();
         while (iteratorListChild.hasNext()) {
-            PersonEndPoint2 child = iteratorListChild.next();
+            Child child = iteratorListChild.next();
             String firstNameChild = child.getFirstName();
             String lastNameChild = child.getLastName();
             houseHold.removeIf(person -> defineChildrenToBeRemoved(person));   //LAMBDA AVEC METHODE REMOVEIF()

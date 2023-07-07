@@ -10,10 +10,10 @@ import java.util.Iterator;
 import java.util.List;
 
 @Service
-public class EndPoint1Service {
+public class FireStationCoverageService {
     private final Converter converter;
     @Autowired
-    public EndPoint1Service(Converter converter) {
+    public FireStationCoverageService(Converter converter) {
         this.converter = converter;
     }
 

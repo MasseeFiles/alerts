@@ -10,10 +10,10 @@ import java.util.Iterator;
 import java.util.List;
 
 @Service
-public class EndPoint3Service {
+public class PhoneAlertService {
     private final Converter converter;
     @Autowired
-    public EndPoint3Service(Converter converter) {
+    public PhoneAlertService(Converter converter) {
         this.converter = converter;
     }
     public List<String> getAnswer(int requestStationNumber) {

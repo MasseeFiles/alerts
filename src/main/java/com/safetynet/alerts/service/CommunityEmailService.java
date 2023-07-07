@@ -11,10 +11,10 @@ import java.util.Iterator;
 import java.util.List;
 
 @Service
-public class EndPoint7Service {
+public class CommunityEmailService {
     private final Converter converter;
     @Autowired
-    public EndPoint7Service(Converter converter) { //constructeur de la classe avec parametre
+    public CommunityEmailService(Converter converter) { //constructeur de la classe avec parametre
         this.converter = converter;
     }
 
