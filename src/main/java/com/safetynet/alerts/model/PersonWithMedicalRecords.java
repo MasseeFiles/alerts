@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class PersonWithMedicalRecords {  //changer en personwithmedicalrecord
+public class PersonWithMedicalRecords {
     private String firstName;
     private String lastName;
     private String phone;

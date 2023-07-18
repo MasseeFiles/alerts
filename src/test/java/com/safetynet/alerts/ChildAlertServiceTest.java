@@ -123,7 +123,7 @@ public class ChildAlertServiceTest {
     }
 
     @Test
-    void testGetListChildEndPoint2_OK() {
+    void testGetList_OK() {
         //GIVEN
         List<Child> requestListChild = new ArrayList<Child>();  //liste des enfants
 
@@ -150,7 +150,7 @@ public class ChildAlertServiceTest {
         requestListPersonLivingHere.add(personTest3);
 
         //WHEN
-        List<Child> listTested = childAlertService.getListChildEndPoint2(requestListChild, requestListPersonLivingHere);
+        List<Child> listTested = childAlertService.getList(requestListChild, requestListPersonLivingHere);
         //THEN
         assertThat(listTested)
                 .isNotEmpty()
@@ -159,7 +159,7 @@ public class ChildAlertServiceTest {
     }
 
     @Test
-    void testGetListChildEndPoint2_No_Matchings() {
+    void testGetList_No_Matchings() {
         //GIVEN
         List<Child> requestListChild = new ArrayList<Child>();  //liste des enfants
 
@@ -186,7 +186,7 @@ public class ChildAlertServiceTest {
         requestListPersonLivingHere.add(personTest3);
 
         //WHEN
-        List<Child> listTested = childAlertService.getListChildEndPoint2(requestListChild, requestListPersonLivingHere);
+        List<Child> listTested = childAlertService.getList(requestListChild, requestListPersonLivingHere);
         //THEN
         assertThat(listTested).hasSize(1);
 

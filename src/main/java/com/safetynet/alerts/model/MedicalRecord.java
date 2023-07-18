@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import lombok.Data;
 
-@Data   //crée directement getters et setters
+@Data
 public class MedicalRecord {
     private String firstName;
     private String lastName;
@@ -15,9 +15,6 @@ public class MedicalRecord {
     private List<String> allergies;
     public int getAgeFromBirthDate(String birthDate)    {
         LocalDate date = LocalDate.parse(birthDate, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-
-        //PREVOIR CAS OU DATE DE NAISSANCE NE PERMET PAS DE FAIRE LE CALCUL
-
         LocalDate currentDate = LocalDate.now();
         return Period.between(date, currentDate).getYears();
     }

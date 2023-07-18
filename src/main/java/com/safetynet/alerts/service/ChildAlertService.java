@@ -1,10 +1,12 @@
 package com.safetynet.alerts.service;
 
-import com.safetynet.alerts.model.*;
-import com.safetynet.alerts.repository.Converter;
+import com.safetynet.alerts.model.Child;
+import com.safetynet.alerts.model.MedicalRecord;
+import com.safetynet.alerts.model.Person;
+import com.safetynet.alerts.repository.MedicalRecordRepository;
+import com.safetynet.alerts.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.safetynet.alerts.model.Child;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -12,21 +14,23 @@ import java.util.List;
 
 @Service
 public class ChildAlertService {
-    private final Converter converter;
+    private final PersonRepository personRepository;
+    private final MedicalRecordRepository medicalRecordRepository;
+
     @Autowired
-    public ChildAlertService(Converter converter) {
-        this.converter = converter;
+    public ChildAlertService(PersonRepository personRepository, MedicalRecordRepository medicalRecordRepository) {
+        this.personRepository = personRepository;
+        this.medicalRecordRepository = medicalRecordRepository;
     }
 
     public List<Child> getAnswer(String requestAddress) {
         List<Person> listPersonLivingHere = getPersonFromAddress(requestAddress);
         List<Child> listChild = getChildren(listPersonLivingHere);
-        return getListChildEndPoint2(listChild, listPersonLivingHere);
+        return getList(listChild, listPersonLivingHere);
     }
 
     public List<Person> getPersonFromAddress(String requestAddress) {   //definit les personnes habitant à une adresse donnée
-        JavaObjectFromJson data = converter.convertJsonToJavaObject();
-        List<Person> savedJSonPersons = data.getPersons();
+        List<Person> savedJSonPersons = personRepository.getPersons();
         Iterator<Person> iteratorPerson = savedJSonPersons.iterator();
         List<Person> listPersonLivingHere = new ArrayList<Person>();
 
@@ -49,8 +53,7 @@ public class ChildAlertService {
     }
 
     public List<Child> getChildren(List<Person> listPersonLivingHere) {   //definit les enfants habitant à l'adresse donnée
-        JavaObjectFromJson data = converter.convertJsonToJavaObject();
-        List<Child> listChild = new ArrayList<Child>(); //valeur de retour
+        List<Child> listChild = new ArrayList<Child>();
         Iterator<Person> iteratorPerson1 = listPersonLivingHere.iterator();
 
         while (iteratorPerson1.hasNext()) {
@@ -58,7 +61,7 @@ public class ChildAlertService {
             String firstName = person.getFirstName();
             String lastName = person.getLastName();
 
-            List<MedicalRecord> savedJsonMedicalRecord = data.getMedicalRecords();
+            List<MedicalRecord> savedJsonMedicalRecord = medicalRecordRepository.getMedicalRecords();
             Iterator<MedicalRecord> iteratorMedicalRecord = savedJsonMedicalRecord.iterator();
             while (iteratorMedicalRecord.hasNext()) {
                 MedicalRecord medicalRecord = iteratorMedicalRecord.next();
@@ -82,7 +85,7 @@ public class ChildAlertService {
         return listChild;
     }
 
-    public List<Child> getListChildEndPoint2(List<Child> listChild, List<Person> listPersonLivingHere) {
+    public List<Child> getList(List<Child> listChild, List<Person> listPersonLivingHere) {
         List<Child> childrenLivingHere = listChild;
         List<Person> houseHold = listPersonLivingHere;
         Iterator<Child> iteratorListChild = listChild.iterator();
@@ -90,15 +93,14 @@ public class ChildAlertService {
             Child child = iteratorListChild.next();
             String firstNameChild = child.getFirstName();
             String lastNameChild = child.getLastName();
-            houseHold.removeIf(person -> defineChildrenToBeRemoved(person));   //LAMBDA AVEC METHODE REMOVEIF()
+            houseHold.removeIf(person -> defineChildrenToBeRemoved(person));
             child.setListHouseholdMember(houseHold);
         }
         return childrenLivingHere;
     }
 
     public boolean defineChildrenToBeRemoved(Person person) {
-        JavaObjectFromJson data = converter.convertJsonToJavaObject();
-        List<MedicalRecord> listMedicalRecord = data.getMedicalRecords();
+        List<MedicalRecord> listMedicalRecord = medicalRecordRepository.getMedicalRecords();
         Iterator<MedicalRecord> iteratorMedicalRecord = listMedicalRecord.iterator();
         boolean toBeRemoved = false;
 
@@ -112,8 +114,8 @@ public class ChildAlertService {
             String firstNamePerson = person.getFirstName();
             String lastNamePerson = person.getLastName();
 
-            if (firstNamePerson.equals(firstNameJson) && lastNamePerson.equals(lastNameJson) && age < 18){   //conditions pour enlever l'enfant concerné de la liste des autres membres du foyer
-              toBeRemoved = true;
+            if (firstNamePerson.equals(firstNameJson) && lastNamePerson.equals(lastNameJson) && age < 18) {   //conditions pour enlever l'enfant concerné de la liste des autres membres du foyer
+                toBeRemoved = true;
             }
         }
         return toBeRemoved;

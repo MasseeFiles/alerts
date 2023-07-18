@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class AnswerEndPoint4 {
+public class AnswerFire {
     List<Integer> stationNumber;
     List<PersonWithMedicalRecords> listPerson;
 }

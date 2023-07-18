@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController //Bean SpringBoot
+@RestController //Bean SpringBoot : retour de la methode au format json dans reponse http
 public class ChildAlertController {
     private static final Logger LOGGER = LoggerFactory.getLogger(ChildAlertController.class);
 
@@ -19,7 +19,7 @@ public class ChildAlertController {
     private ChildAlertService childAlertService;
 
     @GetMapping("/childAlert")
-    public List<Child> getAnswerEndPoint2(@RequestParam("address") String requestAddress) {
+    public List<Child> getChildAlert(@RequestParam("address") String requestAddress) {
         LOGGER.info("Requete pour childAlert - adresse demandée :" + requestAddress);
 
         List<Child> answer = childAlertService.getAnswer(requestAddress);

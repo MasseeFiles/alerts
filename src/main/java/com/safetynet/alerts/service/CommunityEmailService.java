@@ -1,8 +1,7 @@
 package com.safetynet.alerts.service;
 
-import com.safetynet.alerts.model.JavaObjectFromJson;
 import com.safetynet.alerts.model.Person;
-import com.safetynet.alerts.repository.Converter;
+import com.safetynet.alerts.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,22 +11,22 @@ import java.util.List;
 
 @Service
 public class CommunityEmailService {
-    private final Converter converter;
+    private final PersonRepository personRepository;
+
     @Autowired
-    public CommunityEmailService(Converter converter) { //constructeur de la classe avec parametre
-        this.converter = converter;
+    public CommunityEmailService(PersonRepository personRepository) { //constructeur de la classe avec parametre
+        this.personRepository = personRepository;
     }
 
-    public List<String> getAllEmails(String requestCity) {
-        JavaObjectFromJson data = converter.convertJsonToJavaObject(); //ne fait pas partie du contexte spring
-        List<Person> list = data.getPersons();
+    public List<String> getAnswer(String requestCity) {
+        List<Person> listPerson = personRepository.getPersons();
         List<String> listEmails = new ArrayList<String>();
-        Iterator<Person> iterator = list.iterator();
+        Iterator<Person> iterator = listPerson.iterator();
 
         while (iterator.hasNext()) {
             Person person1 = iterator.next();
-            String personCity= person1.getCity();
-            if (personCity.equals (requestCity)) {
+            String personCity = person1.getCity();
+            if (personCity.equals(requestCity)) {
                 String emailRetrieved = person1.getEmail();
                 listEmails.add(emailRetrieved);
             }

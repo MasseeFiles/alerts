@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-class CommunityEmailServiceTest {    //Assertions JUnit
+class CommunityEmailServiceTest {
     @Autowired
     private CommunityEmailService communityEmailService;
     @Test
@@ -19,7 +19,7 @@ class CommunityEmailServiceTest {    //Assertions JUnit
         //GIVEN
         String cityTest = ("Culver");
         //WHEN
-        List<String> listEmail = communityEmailService.getAllEmails(cityTest);
+        List<String> listEmail = communityEmailService.getAnswer(cityTest);
         //THEN
         assertFalse(listEmail.isEmpty());
     }
@@ -28,7 +28,7 @@ class CommunityEmailServiceTest {    //Assertions JUnit
         //GIVEN
         String cityTest = ("Paris");
         //WHEN
-        List<String> listEmail = communityEmailService.getAllEmails(cityTest);
+        List<String> listEmail = communityEmailService.getAnswer(cityTest);
         //THEN
         assertTrue(listEmail.isEmpty());
     }

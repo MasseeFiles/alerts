@@ -1,6 +1,6 @@
 package com.safetynet.alerts.controller;
 
-import com.safetynet.alerts.model.AnswerEndPoint6;
+import com.safetynet.alerts.model.AnswerPersonInfo;
 import com.safetynet.alerts.service.PersonInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,17 +13,18 @@ import java.util.List;
 
 @RestController
 public class PersonInfoController {
-        private static final Logger LOGGER = LoggerFactory.getLogger(PersonInfoController.class);
-        @Autowired
-        private PersonInfoService personInfoService;
-        @GetMapping("/personInfo")
-        public List<AnswerEndPoint6> getAnswerEndPoint6(@RequestParam("firstName") String firstName , @RequestParam("lastName") String lastName) {
-                LOGGER.info("Requete pour personInfo - prenom demandé : " + firstName + "nom demandé : " + lastName);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PersonInfoController.class);
+    @Autowired
+    private PersonInfoService personInfoService;
 
-                List<AnswerEndPoint6> answer = personInfoService.getPersonFromName(firstName , lastName);
+    @GetMapping("/personInfo")
+    public List<AnswerPersonInfo> getPersonInfo(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) {
+        LOGGER.info("Requete pour personInfo - prenom demandé : " + firstName + "nom demandé : " + lastName);
 
-                LOGGER.info("Reponse pour personInfo - prenom demandé : " + firstName + " nom demandé : " + lastName + " / personne concernée : " + answer);
+        List<AnswerPersonInfo> answer = personInfoService.getAnswer(firstName, lastName);
 
-                return answer;
-        }
+        LOGGER.info("Reponse pour personInfo - prenom demandé : " + firstName + " nom demandé : " + lastName + " / personne concernée : " + answer);
+
+        return answer;
+    }
 }

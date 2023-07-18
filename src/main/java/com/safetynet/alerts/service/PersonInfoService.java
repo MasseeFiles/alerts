@@ -1,7 +1,10 @@
 package com.safetynet.alerts.service;
 
-import com.safetynet.alerts.model.*;
-import com.safetynet.alerts.repository.Converter;
+import com.safetynet.alerts.model.AnswerPersonInfo;
+import com.safetynet.alerts.model.MedicalRecord;
+import com.safetynet.alerts.model.Person;
+import com.safetynet.alerts.repository.MedicalRecordRepository;
+import com.safetynet.alerts.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,16 +14,20 @@ import java.util.List;
 
 @Service
 public class PersonInfoService {
-    private final Converter converter;
+    private final PersonRepository personRepository;
+    private final MedicalRecordRepository medicalRecordRepository;
+
+
     @Autowired
-    public PersonInfoService(Converter converter) {
-        this.converter = converter;
+    public PersonInfoService(PersonRepository personRepository, MedicalRecordRepository medicalRecordRepository) {
+        this.personRepository = personRepository;
+        this.medicalRecordRepository = medicalRecordRepository;
     }
-    public List<AnswerEndPoint6> getPersonFromName(String requestFirstName, String requestLastName) {
-        JavaObjectFromJson data = converter.convertJsonToJavaObject();
-        List<Person> savedJSonPersons = data.getPersons();
+
+    public List<AnswerPersonInfo> getAnswer(String requestFirstName, String requestLastName) {
+        List<Person> savedJSonPersons = personRepository.getPersons();
         Iterator<Person> iteratorPerson = savedJSonPersons.iterator();
-        List<AnswerEndPoint6> listAnswerEndPoint6 = new ArrayList<AnswerEndPoint6>();
+        List<AnswerPersonInfo> listAnswerPersonInfo = new ArrayList<AnswerPersonInfo>();
 
         while (iteratorPerson.hasNext()) {
             Person person = iteratorPerson.next();
@@ -28,13 +35,13 @@ public class PersonInfoService {
             String lastName = person.getLastName();
 
             if (firstName.equals(requestFirstName) && lastName.equals(requestLastName)) {
-                AnswerEndPoint6 answerEndPoint6 = new AnswerEndPoint6();
-                answerEndPoint6.setFirstName(person.getFirstName());
-                answerEndPoint6.setLastName(person.getLastName());
-                answerEndPoint6.setAddress(person.getAddress());
-                answerEndPoint6.setEmail(person.getEmail());
+                AnswerPersonInfo answerPersonInfo = new AnswerPersonInfo();
+                answerPersonInfo.setFirstName(person.getFirstName());
+                answerPersonInfo.setLastName(person.getLastName());
+                answerPersonInfo.setAddress(person.getAddress());
+                answerPersonInfo.setEmail(person.getEmail());
 
-                List<MedicalRecord> savedJsonMedicalRecord = data.getMedicalRecords();
+                List<MedicalRecord> savedJsonMedicalRecord = medicalRecordRepository.getMedicalRecords();
                 Iterator<MedicalRecord> iteratorMedicalRecord = savedJsonMedicalRecord.iterator();
 
                 while (iteratorMedicalRecord.hasNext()) {
@@ -44,14 +51,14 @@ public class PersonInfoService {
 
                     if (firstNameJson.equals(requestFirstName) && lastNameJson.equals(requestLastName)) {
                         String birthDate = medicalRecord.getBirthdate();
-                        answerEndPoint6.setAge(medicalRecord.getAgeFromBirthDate(birthDate));
-                        answerEndPoint6.setMedications(medicalRecord.getMedications());
-                        answerEndPoint6.setAllergies(medicalRecord.getAllergies());
-                        listAnswerEndPoint6.add(answerEndPoint6);
+                        answerPersonInfo.setAge(medicalRecord.getAgeFromBirthDate(birthDate));
+                        answerPersonInfo.setMedications(medicalRecord.getMedications());
+                        answerPersonInfo.setAllergies(medicalRecord.getAllergies());
+                        listAnswerPersonInfo.add(answerPersonInfo);
                     }
                 }
             }
         }
-        return listAnswerEndPoint6;
+        return listAnswerPersonInfo;
     }
 }

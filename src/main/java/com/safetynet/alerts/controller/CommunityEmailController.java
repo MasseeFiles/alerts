@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController //Bean SpringBoot
+@RestController
 public class CommunityEmailController {
     private static final Logger LOGGER = LoggerFactory.getLogger(CommunityEmailController.class);
     @Autowired
@@ -19,7 +19,7 @@ public class CommunityEmailController {
     public List<String> getCommunityEmail(@RequestParam("city") String city) {
         LOGGER.info("Requete pour communityEmail - ville demandée : " + city);
 
-        List<String> answer = communityEmailService.getAllEmails(city);
+        List<String> answer = communityEmailService.getAnswer(city);
 
         LOGGER.info("Reponse pour communityEmail - ville demandée : " + city + " / liste des mails des habitants : " + answer);
 

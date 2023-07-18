@@ -26,8 +26,9 @@ public class PersonRepository {
         List<Person> listPersonJson = data.getPersons();
         persons.addAll(listPersonJson);
     }
+    //methode getPersons utilisée par endpoints pour recuperer la list<persons> du fichier json et pour garder en memoire les modifications des endpoints
 
-    public List<Person> getPersons() {  //methode a utiliser pour recuperer persons dans json
+    public List<Person> getPersons() {
         return persons;
     }
 
@@ -41,7 +42,7 @@ public class PersonRepository {
             String personToAddFirstName = personToAdd.getFirstName();
             String personToAddLastName = personToAdd.getLastName();
 
-            if (personToAddFirstName.equals(personJsonFirstName) && personToAddLastName.equals(personJsonLastName)) {   //exception levée dès que name et surname
+            if (personToAddFirstName.equals(personJsonFirstName) && personToAddLastName.equals(personJsonLastName)) {
                 throw new IllegalArgumentException("Saving cancelled : person is already listed in the database");
             }
         }
@@ -53,13 +54,13 @@ public class PersonRepository {
         boolean wasUpdated = persons.removeIf(person -> person.getFirstName().equals(personToUpdate.getFirstName()) && person.getLastName().equals(personToUpdate.getLastName()));  // true si person existe deja dans le fichier json
 
         if (wasUpdated == true) {
-                    persons.add(personToUpdate);
+            persons.add(personToUpdate);
         } else {
             throw new IllegalArgumentException("Update cancelled : person can't be found in the database");
         }
     }
 
-    public void deletePerson(String firstNameRequest , String lastNameRequest) {
+    public void deletePerson(String firstNameRequest, String lastNameRequest) {
         boolean wasRemoved = persons.removeIf(person -> person.getFirstName().equals(firstNameRequest) && person.getLastName().equals(lastNameRequest));  // true si person existe deja dans le fichier json
 
         if (wasRemoved == false) {

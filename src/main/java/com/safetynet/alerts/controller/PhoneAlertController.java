@@ -16,7 +16,7 @@ public class PhoneAlertController {
     @Autowired
     private PhoneAlertService phoneAlertService;
     @GetMapping("/phoneAlert")
-    public List<String> getAnswerEndPoint3(@RequestParam("firestation") int stationNumber) {
+    public List<String> getPhoneAlert(@RequestParam("firestation") int stationNumber) {
         LOGGER.info("Requete pour phone alert - numero de caserne demandée : " + stationNumber);
 
         List<String> answer = phoneAlertService.getAnswer(stationNumber);

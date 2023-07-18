@@ -1,9 +1,9 @@
 package com.safetynet.alerts;
 
-import com.safetynet.alerts.model.AnswerEndPoint1;
+import com.safetynet.alerts.model.AnswerFireStationCoverage;
 import com.safetynet.alerts.model.NumberAdultsAndChildren;
 import com.safetynet.alerts.model.Person;
-import com.safetynet.alerts.model.PersonEndPoint1;
+import com.safetynet.alerts.model.PersonFireStationCoverage;
 import com.safetynet.alerts.service.FireStationCoverageService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +23,13 @@ public class FireStationCoverageServiceTest {
         //GIVEN
         int stationNumber = 1;
         //WHEN
-        AnswerEndPoint1 answerEndPoint1Tested = fireStationCoverageService.getAnswer(stationNumber);
+        AnswerFireStationCoverage answerFireStationCoverageTested = fireStationCoverageService.getAnswer(stationNumber);
         //THEN
-        List<PersonEndPoint1> listPersonCoveredTested = answerEndPoint1Tested.getListPersonCovered();
+        List<PersonFireStationCoverage> listPersonCoveredTested = answerFireStationCoverageTested.getListPersonCovered();
         assertThat(listPersonCoveredTested)
                 .isNotEmpty();
 
-        assertThat(answerEndPoint1Tested)
+        assertThat(answerFireStationCoverageTested)
                 .extracting("listPersonCovered")
                 .asList()                       // Indique au compilateur que la String "listPersonCovered" est une List
                 .hasSize(6);
@@ -39,9 +39,9 @@ public class FireStationCoverageServiceTest {
         //GIVEN
         int stationNumber = -1; //Pas de station avec numero negatif
         //WHEN
-        AnswerEndPoint1 answerEndPoint1Tested = fireStationCoverageService.getAnswer(stationNumber);
+        AnswerFireStationCoverage answerFireStationCoverageTested = fireStationCoverageService.getAnswer(stationNumber);
         //THEN
-        List<PersonEndPoint1> listPersonCoveredTested = answerEndPoint1Tested.getListPersonCovered();
+        List<PersonFireStationCoverage> listPersonCoveredTested = answerFireStationCoverageTested.getListPersonCovered();
         assertThat(listPersonCoveredTested)
                 .isEmpty();
     }

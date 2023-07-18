@@ -16,7 +16,7 @@ public class FireStationRepository {
     private final Converter converter;
 
     @Autowired
-    public FireStationRepository(Converter converter) { //constructeur de la classe avec parametre converter
+    public FireStationRepository(Converter converter) {
         this.converter = converter;
     }
 
@@ -49,12 +49,11 @@ public class FireStationRepository {
         fireStations.add(fireStationToAdd);
 
     }
-//javadoc
 
     /**
-     * firestation update s'applique à la premiere occurence avec adresse correspondante
+     * NB : updateFirestation s'applique à la premiere occurence rencontrée avec adresse correspondante
      */
-    public void updateFireStation(FireStation fireStationToUpdate) {  //mettre à jour le numéro de la caserne de pompiers d'une adresse
+    public void updateFireStation(FireStation fireStationToUpdate) {  //mise à jour le numéro de la caserne de pompiers d'une adresse
         for (FireStation fireStation : fireStations) {
             if (fireStation.getAddress().equals(fireStationToUpdate.getAddress())) {
                 fireStation.setStation(fireStationToUpdate.getStation());
@@ -64,11 +63,11 @@ public class FireStationRepository {
         throw new IllegalArgumentException("Update cancelled : this address is not covered in the database");  // Le return permet de sortir de la boucle donc de ne pas lancer l'exception
     }
 
-    public void deleteFireStation(FireStation fireStationToDelete) {    //supprime toutes les entrées concernant un # de caserne ou une adresse
+    public void deleteFireStation(FireStation fireStationToDelete) {    //suppression de toutes les entrées concernant un # de caserne ou une adresse
         boolean wasDeleted = fireStations.removeIf(fireStation -> {
             return
                     (fireStationToDelete.getAddress() != null && fireStation.getAddress().equals(fireStationToDelete.getAddress())) ||  //destruction par les adresses des fireStation de la liste (OR)
-                    (fireStationToDelete.getStation() != null && fireStation.getStation().equals(fireStationToDelete.getStation()));    //destruction par les numeros des fireStation de la liste
+                            (fireStationToDelete.getStation() != null && fireStation.getStation().equals(fireStationToDelete.getStation()));    //destruction par les numeros des fireStation de la liste
         });
         if (wasDeleted == false) {
             throw new IllegalArgumentException("Deletion cancelled : this fire station / linked address is not listed in the database");

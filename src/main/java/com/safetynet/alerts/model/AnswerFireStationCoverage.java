@@ -5,8 +5,8 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class AnswerEndPoint1 {
-    List<PersonEndPoint1> listPersonCovered;
+public class AnswerFireStationCoverage {
+    List<PersonFireStationCoverage> listPersonCovered;
     NumberAdultsAndChildren numberAdultsAndChildren;
 }
 

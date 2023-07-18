@@ -2,8 +2,8 @@ package com.safetynet.alerts.model;
 
 import lombok.Data;
 
-@Data   //crée directement stubgetters et setters
-public class Person {   //POJO
+@Data
+public class Person {
     private String firstName;
     private String lastName;
     private String address;

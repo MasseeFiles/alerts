@@ -16,8 +16,9 @@ public class FloodController {
     private static final Logger LOGGER = LoggerFactory.getLogger(FloodController.class);
     @Autowired
     private FloodService floodService;
+
     @GetMapping("flood/stations")
-    public List<HouseHold> getAnswerEndPoint5(@RequestParam("stations") int stationNumber) {
+    public List<HouseHold> getFlood(@RequestParam("stations") int stationNumber) {
         LOGGER.info("Requete pour flood - numero de caserne demandée : " + stationNumber);
 
         List<HouseHold> answer = floodService.getAnswer(stationNumber);

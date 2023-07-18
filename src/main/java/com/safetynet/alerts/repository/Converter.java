@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.safetynet.alerts.model.JavaObjectFromJson;
 import org.springframework.stereotype.Component;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -32,7 +31,7 @@ public class Converter {
 //        return null;
 //    }
 
-    public JavaObjectFromJson convertJsonToJavaObject() { //Lecture dans le json : prend en paramètre un objet json lu dans dataen string, fait la conversion et retourne un objet Java
+    public JavaObjectFromJson convertJsonToJavaObject() {
         try {
             ObjectMapper mapper = new ObjectMapper();
             String jsonContent = convertToString();
@@ -40,7 +39,7 @@ public class Converter {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;    //la methode doit toujours retourner qq chose (valeur de retour ou null)  --  POURQUOI???
+        return null;
     }
 
     private String convertToString() {

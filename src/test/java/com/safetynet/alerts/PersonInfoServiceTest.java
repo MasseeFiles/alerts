@@ -1,6 +1,6 @@
 package com.safetynet.alerts;
 
-import com.safetynet.alerts.model.AnswerEndPoint6;
+import com.safetynet.alerts.model.AnswerPersonInfo;
 import com.safetynet.alerts.service.PersonInfoService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 public class PersonInfoServiceTest {
@@ -19,16 +19,16 @@ public class PersonInfoServiceTest {
     void testGetPersonFromName_Ok() {
         //GIVEN
         //WHEN
-        List<AnswerEndPoint6> listAnswerEndPoint6 = personInfoService.getPersonFromName("Shawna", "Stelzer");
+        List<AnswerPersonInfo> listAnswerPersonInfo = personInfoService.getAnswer("Shawna", "Stelzer");
         //THEN
-        assertThat(listAnswerEndPoint6).isNotEmpty();
+        assertThat(listAnswerPersonInfo).isNotEmpty();
 
-        assertThat(listAnswerEndPoint6)
-                .extracting(AnswerEndPoint6::getFirstName)
+        assertThat(listAnswerPersonInfo)
+                .extracting(AnswerPersonInfo::getFirstName)
                 .contains("Shawna");
 
-        assertThat(listAnswerEndPoint6)
-                .extracting(AnswerEndPoint6::getLastName)
+        assertThat(listAnswerPersonInfo)
+                .extracting(AnswerPersonInfo::getLastName)
                 .contains("Stelzer");
     }
 
@@ -36,8 +36,8 @@ public class PersonInfoServiceTest {
     void TestGetPersonFromName_Wrong_Name() {
         //GIVEN
         //WHEN
-        List<AnswerEndPoint6> listAnswerEndPoint6 = personInfoService.getPersonFromName("wrongFirstName", "wrongLastName");
+        List<AnswerPersonInfo> listAnswerPersonInfo = personInfoService.getAnswer("wrongFirstName", "wrongLastName");
         //THEN
-        assertThat(listAnswerEndPoint6).isEmpty();
+        assertThat(listAnswerPersonInfo).isEmpty();
     }
 }

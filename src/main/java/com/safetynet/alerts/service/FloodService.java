@@ -1,7 +1,9 @@
 package com.safetynet.alerts.service;
 
 import com.safetynet.alerts.model.*;
-import com.safetynet.alerts.repository.Converter;
+import com.safetynet.alerts.repository.FireStationRepository;
+import com.safetynet.alerts.repository.MedicalRecordRepository;
+import com.safetynet.alerts.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,11 +11,15 @@ import java.util.*;
 
 @Service
 public class FloodService {
-    private final Converter converter;
+    private final FireStationRepository fireStationRepository;
+    private final PersonRepository personRepository;
+    private final MedicalRecordRepository medicalRecordRepository;
 
     @Autowired
-    public FloodService(Converter converter) {
-        this.converter = converter;
+    public FloodService(FireStationRepository fireStationRepository, PersonRepository personRepository, MedicalRecordRepository medicalRecordRepository) {
+        this.fireStationRepository = fireStationRepository;
+        this.personRepository = personRepository;
+        this.medicalRecordRepository = medicalRecordRepository;
     }
 
     public List<HouseHold> getAnswer(int stationNumber) {
@@ -23,8 +29,7 @@ public class FloodService {
 
     public List<String> getAddressCovered(int stationNumber) {
         List<String> addressesCovered = new ArrayList<String>();
-        JavaObjectFromJson data = converter.convertJsonToJavaObject();
-        List<FireStation> listAddressCoveredPersonJson = data.getFireStations();
+        List<FireStation> listAddressCoveredPersonJson = fireStationRepository.getFireStations();
         Iterator<FireStation> iteratorFireStationJson = listAddressCoveredPersonJson.iterator();
 
         while (iteratorFireStationJson.hasNext()) {
@@ -42,8 +47,7 @@ public class FloodService {
     public List<HouseHold> getListHouseHold(List<String> addressesCovered) {
         Map<String, List<PersonWithMedicalRecords>> map = new HashMap<>();
 
-        JavaObjectFromJson data = converter.convertJsonToJavaObject();
-        List<Person> listPersonJson = data.getPersons();
+        List<Person> listPersonJson = personRepository.getPersons();
         Iterator<Person> iteratorPersonJson = listPersonJson.iterator();
         while (iteratorPersonJson.hasNext()) {
             Person person = iteratorPersonJson.next();
@@ -54,8 +58,8 @@ public class FloodService {
                 String singleAddressCovered = iteratorAddress.next();
 
                 if (singleAddressCovered.equals(addressPerson)) {
-                    PersonWithMedicalRecords personWithMedicalRecords = buildPersonWithMedicalRecords(data, person);
-                    addToMap(map , personWithMedicalRecords, addressPerson);
+                    PersonWithMedicalRecords personWithMedicalRecords = buildPersonWithMedicalRecords(medicalRecordRepository, person);
+                    addToMap(map, personWithMedicalRecords, addressPerson);
                 }
             }
         }
@@ -84,17 +88,17 @@ public class FloodService {
             houseHold.setAddressHouseHold(address);
 
             listHouseHold.add(houseHold);
-            }
+        }
         return listHouseHold;
     }
 
-    private static PersonWithMedicalRecords buildPersonWithMedicalRecords(JavaObjectFromJson data, Person person) {
+    private static PersonWithMedicalRecords buildPersonWithMedicalRecords(MedicalRecordRepository medicalRecordRepository, Person person) {
         PersonWithMedicalRecords personWithMedicalRecords = new PersonWithMedicalRecords();
         personWithMedicalRecords.setFirstName(person.getFirstName());
         personWithMedicalRecords.setLastName(person.getLastName());
         personWithMedicalRecords.setPhone(person.getPhone());
 
-        List<MedicalRecord> listMedicalRecord = data.getMedicalRecords();
+        List<MedicalRecord> listMedicalRecord = medicalRecordRepository.getMedicalRecords();
         Iterator<MedicalRecord> iteratorMedicalRecord = listMedicalRecord.iterator();
         while (iteratorMedicalRecord.hasNext()) {
             MedicalRecord medicalRecord = iteratorMedicalRecord.next();
