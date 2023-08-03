@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class ConverterTest {
 
     @Test
-    void testConvertJsonToJavaObject_OK() { //methode renvoie un JavaObject à tester
+    void testConvertJsonToJavaObject_OK() {
         //GIVEN
         Converter converter = new Converter();
 

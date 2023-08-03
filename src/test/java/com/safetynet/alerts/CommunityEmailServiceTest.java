@@ -24,7 +24,7 @@ class CommunityEmailServiceTest {
         assertFalse(listEmail.isEmpty());
     }
     @Test
-    void testGetAllEmails_Wrong_City() { //methode renvoie un JavaObject à tester
+    void testGetAllEmails_Wrong_City() {
         //GIVEN
         String cityTest = ("Paris");
         //WHEN

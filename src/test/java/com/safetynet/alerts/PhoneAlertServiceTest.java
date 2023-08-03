@@ -18,9 +18,9 @@ public class PhoneAlertServiceTest {
     void testGetAnswer_Ok() {
         //GIVEN
         //WHEN
-        List<String> listTested = phoneAlertService.getAnswer(2);    //Test sur stationNumber #2
+        List<String> listTested = phoneAlertService.getAnswer(2);
         //THEN
-        assertThat(listTested)    //AssertJ modification
+        assertThat(listTested)
                 .isNotEmpty()
                 .hasSize(5)
                 .contains("841-874-6513");
@@ -31,13 +31,13 @@ public class PhoneAlertServiceTest {
         //WHEN
         List<String> listTested = phoneAlertService.getAnswer(-1);
         //THEN
-        assertThat(listTested)    //AssertJ modification
+        assertThat(listTested)
                 .isEmpty();
     }
     @Test
     void testGetAddressesCovered_Ok() {
         //GIVEN
-        int station = 1; //Au moins une station 1 dans le fichier JSON
+        int station = 1;
         //WHEN
         List<String> listAddressCoveredTested = phoneAlertService.getAddressesCovered(station);
         //THEN
@@ -56,7 +56,7 @@ public class PhoneAlertServiceTest {
     void testGetPhonesFromAddress_Ok() {
         //GIVEN
         List<String> listAddress = new ArrayList<String>();
-        listAddress.add("834 Binoc Ave");  // Addresse presente dans le fichier JSON
+        listAddress.add("834 Binoc Ave");
         //WHEN
         List<String> listPhonesTested = phoneAlertService.getPhonesFromAddress(listAddress);
         //THEN
@@ -69,7 +69,7 @@ public class PhoneAlertServiceTest {
     void testGetPhonesFromAddress_Wrong_Address() {
         //GIVEN
         List<String> listAddress = new ArrayList<String>();
-        listAddress.add("WrongAddress");    // Addresse non-presente dans le fichier JSON
+        listAddress.add("WrongAddress");
         //WHEN
         List<String> listPhonesTested = phoneAlertService.getPhonesFromAddress(listAddress);
         //THEN

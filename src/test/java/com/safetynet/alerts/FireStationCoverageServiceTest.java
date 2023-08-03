@@ -31,13 +31,13 @@ public class FireStationCoverageServiceTest {
 
         assertThat(answerFireStationCoverageTested)
                 .extracting("listPersonCovered")
-                .asList()                       // Indique au compilateur que la String "listPersonCovered" est une List
+                .asList()
                 .hasSize(6);
     }
     @Test
     void testGetAnswer_Wrong_Number() {
         //GIVEN
-        int stationNumber = -1; //Pas de station avec numero negatif
+        int stationNumber = -1;
         //WHEN
         AnswerFireStationCoverage answerFireStationCoverageTested = fireStationCoverageService.getAnswer(stationNumber);
         //THEN
@@ -48,7 +48,7 @@ public class FireStationCoverageServiceTest {
     @Test
     void testGetAddressesCovered_Ok() {
         //GIVEN
-        int station = 1; //Au moins une station avec #1 dans le fichier JSON
+        int station = 1;
         //WHEN
         List<String> listAddressCoveredTested = fireStationCoverageService.getAddressesCovered(station);
         //THEN
@@ -59,7 +59,7 @@ public class FireStationCoverageServiceTest {
     @Test
     void testGetAddressesCovered_Wrong_StationNumber() {
         //GIVEN
-        int station = -1;   //Test avec un numero negatif de station
+        int station = -1;
         //WHEN
         List<String> listAddressCoveredTested = fireStationCoverageService.getAddressesCovered(station);
         //THEN

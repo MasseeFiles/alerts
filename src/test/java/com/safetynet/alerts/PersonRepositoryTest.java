@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)    //réinitialiser toutes les instances du contexte entre chaque test.
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 
 public class PersonRepositoryTest {
     @Autowired
@@ -41,8 +41,6 @@ public class PersonRepositoryTest {
         assertThat(personsTested)
                 .usingRecursiveFieldByFieldElementComparatorOnFields("firstName", "lastName")
                 .contains(personTest);
-//        assertThat(personsTested) //Pb : assertion sur tous les fields de l'objet pour voir si égalité
-//                .contains(personTest);
     }
 
     @Test
@@ -84,7 +82,7 @@ public class PersonRepositoryTest {
         assertThatThrownBy(() -> {
             personRepository.updatePerson(personTest);
         }).isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Update cancelled : person can't be found in the database");  //voir si modif code - message peut rapidement changer
+                .hasMessageContaining("Update cancelled : person can't be found in the database");
     }
 
     @Test

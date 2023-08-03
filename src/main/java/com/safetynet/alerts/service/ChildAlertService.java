@@ -29,7 +29,7 @@ public class ChildAlertService {
         return getList(listChild, listPersonLivingHere);
     }
 
-    public List<Person> getPersonFromAddress(String requestAddress) {   //definit les personnes habitant à une adresse donnée
+    public List<Person> getPersonFromAddress(String requestAddress) {
         List<Person> savedJSonPersons = personRepository.getPersons();
         Iterator<Person> iteratorPerson = savedJSonPersons.iterator();
         List<Person> listPersonLivingHere = new ArrayList<Person>();
@@ -52,7 +52,7 @@ public class ChildAlertService {
         return listPersonLivingHere;
     }
 
-    public List<Child> getChildren(List<Person> listPersonLivingHere) {   //definit les enfants habitant à l'adresse donnée
+    public List<Child> getChildren(List<Person> listPersonLivingHere) {
         List<Child> listChild = new ArrayList<Child>();
         Iterator<Person> iteratorPerson1 = listPersonLivingHere.iterator();
 
@@ -114,7 +114,7 @@ public class ChildAlertService {
             String firstNamePerson = person.getFirstName();
             String lastNamePerson = person.getLastName();
 
-            if (firstNamePerson.equals(firstNameJson) && lastNamePerson.equals(lastNameJson) && age < 18) {   //conditions pour enlever l'enfant concerné de la liste des autres membres du foyer
+            if (firstNamePerson.equals(firstNameJson) && lastNamePerson.equals(lastNameJson) && age < 18) {
                 toBeRemoved = true;
             }
         }

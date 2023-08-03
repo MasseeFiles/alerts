@@ -125,14 +125,14 @@ public class ChildAlertServiceTest {
     @Test
     void testGetList_OK() {
         //GIVEN
-        List<Child> requestListChild = new ArrayList<Child>();  //liste des enfants
+        List<Child> requestListChild = new ArrayList<Child>();
 
         Child child1 = new Child();
         child1.setFirstName("Zach");
         child1.setLastName("Zemicks");
         requestListChild.add(child1);
 
-        List<Person> requestListPersonLivingHere = new ArrayList<Person>(); //liste du foyer
+        List<Person> requestListPersonLivingHere = new ArrayList<Person>();
 
         Person personTest1 = new Person();
         personTest1.setFirstName("Warren");
@@ -161,14 +161,14 @@ public class ChildAlertServiceTest {
     @Test
     void testGetList_No_Matchings() {
         //GIVEN
-        List<Child> requestListChild = new ArrayList<Child>();  //liste des enfants
+        List<Child> requestListChild = new ArrayList<Child>();
 
         Child child1 = new Child();
         child1.setFirstName("WrongFirstName");
         child1.setLastName("WrongLastName");
         requestListChild.add(child1);
 
-        List<Person> requestListPersonLivingHere = new ArrayList<Person>(); //liste du foyer
+        List<Person> requestListPersonLivingHere = new ArrayList<Person>();
 
         Person personTest1 = new Person();
         personTest1.setFirstName("John");

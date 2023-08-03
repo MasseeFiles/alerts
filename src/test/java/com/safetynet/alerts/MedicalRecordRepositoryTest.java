@@ -15,7 +15,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @SpringBootTest
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-//réinitialiser toutes les instances du contexte entre chaque test.
 
 public class MedicalRecordRepositoryTest {
     @Autowired

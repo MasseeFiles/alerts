@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController //Bean SpringBoot
+@RestController
 public class PhoneAlertController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhoneAlertController.class);
     @Autowired

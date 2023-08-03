@@ -30,14 +30,14 @@ public class PhoneAlertService {
 
     public List<String> getAddressesCovered(int requestStationNumber) {
         List<FireStation> savedJSonFireStation = fireStationRepository.getFireStations();
-        List<String> addressesCovered = new ArrayList<String>();    //liste des adresses couvertes par une firstStation
+        List<String> addressesCovered = new ArrayList<String>();
         Iterator<FireStation> iterator = savedJSonFireStation.iterator();
 
         while (iterator.hasNext()) {
             FireStation fireStation = iterator.next();
             int stationNumber = fireStation.getStation();
 
-            if (requestStationNumber == stationNumber) { //"filtrage" des adresses à renvoyer
+            if (requestStationNumber == stationNumber) {
                 addressesCovered.add(fireStation.getAddress());
             }
         }

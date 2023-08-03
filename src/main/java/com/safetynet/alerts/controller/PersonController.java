@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class PersonController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PersonController.class);   //syntax standard logger
+    private static final Logger LOGGER = LoggerFactory.getLogger(PersonController.class);
     @Autowired
     private PersonService personService;
 
     @PostMapping(value = "/person")
-    public ResponseEntity addPerson(@RequestBody Person person) {  //RequestBody : permet d'extraire les données contenues dans le body de la requete
-        //ResponseEntity : class SpringBoot representant une réponse HTTP (renvoyée par un controller - controle sur contenu de reponse : status code , header...)
+    public ResponseEntity addPerson(@RequestBody Person person) {
         LOGGER.info("Requete pour l'ajout d'une personne : " + person);
 
         try{

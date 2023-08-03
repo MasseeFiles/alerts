@@ -53,7 +53,7 @@ public class FireStationCoverageService {
 
     public List<Person> getListPersonFromAddress(List<String> listAddress) {
         List<Person> listPersonJson = personRepository.getPersons();
-        List<Person> listPersonCovered = new ArrayList<Person>();   //valeur de retour
+        List<Person> listPersonCovered = new ArrayList<Person>();
         Iterator<String> iteratorAddressJson = listAddress.iterator();
 
         while (iteratorAddressJson.hasNext()) {
@@ -73,7 +73,7 @@ public class FireStationCoverageService {
     }
 
     public List<PersonFireStationCoverage> getListPersonFireStationCoverage(List<Person> listPersonCovered) {
-        List<PersonFireStationCoverage> listPersonFireStationCoverage = new ArrayList<PersonFireStationCoverage>();   //valeur de retour
+        List<PersonFireStationCoverage> listPersonFireStationCoverage = new ArrayList<PersonFireStationCoverage>();
         Iterator<Person> iteratorPerson = listPersonCovered.iterator();
 
         while (iteratorPerson.hasNext()) {
@@ -91,7 +91,7 @@ public class FireStationCoverageService {
     }
 
     public NumberAdultsAndChildren getAdultAndChildren(List<Person> listPersonCovered) {
-        NumberAdultsAndChildren number = new NumberAdultsAndChildren(); //valeur de retour
+        NumberAdultsAndChildren number = new NumberAdultsAndChildren();
         int numberAdults = 0;
         int numberChildren = 0;
         Iterator<Person> iteratorPerson = listPersonCovered.iterator();

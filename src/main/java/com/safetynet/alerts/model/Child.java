@@ -9,5 +9,5 @@ public class Child {
         private String firstName;
         private String lastName;
         private int age;
-        private List<Person> listHouseholdMember ;
+        private List<Person> listHouseholdMember;
 }
